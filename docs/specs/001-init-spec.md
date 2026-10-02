@@ -1,7 +1,7 @@
 # 001 — Project charter and initial spec
 
 Repository: `zurkhai`. Engine crates: `tshes`, `tshes-ffi`, `tshes-wasm`. App brand: **Хүрдэн — зурхай** (pending F3 checks).
-Status: draft (r3)
+Status: accepted (r3), 2026-10-02
 Scope of this spec: what the project is, what it is not, the one question that must be answered before anything else is built, the data model, the verification strategy, and the first milestones.
 
 ---

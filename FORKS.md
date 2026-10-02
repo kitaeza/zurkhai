@@ -59,7 +59,8 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Raised:** 002 §4.6, §9.
 - **Question:** Is `tshes` `#![no_std]` with no `alloc`?
 - **Options:** (a) `no_std` and no `alloc`, unless M1 finds a concrete need, recorded in a spec (002's reading); (b) `no_std` with `alloc`; (c) `std`.
-- **Status:** OPEN
+- **Status:** RULED
+- **Ruled:** 2026-10-02, (a): `no_std` with no `alloc` in `tshes`, unless M1 finds a concrete need, recorded in a spec. The human: "agree".
 
 ### F7 — Android bindings
 - **Raised:** 002 §9.

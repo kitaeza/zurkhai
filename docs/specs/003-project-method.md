@@ -1,6 +1,6 @@
 # 003 — Project method: spec-driven development
 
-Status: draft (r1)
+Status: accepted (r1), 2026-10-02
 Depends on: 001, 002
 
 ## 1. Decision

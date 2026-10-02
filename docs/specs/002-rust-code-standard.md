@@ -1,6 +1,6 @@
 # 002 — Engine language: Rust, and the code standard
 
-Status: draft (r2)
+Status: accepted (r2), 2026-10-02
 Resolves: 001 §8 fork F1 (option A), and F2 for code.
 
 ## 1. Decision

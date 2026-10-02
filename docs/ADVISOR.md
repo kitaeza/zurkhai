@@ -1,6 +1,6 @@
 # ADVISOR — the advisor's role, what it reads, and its routines
 
-Status: r1 (2026-10-02). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
+Status: r2 (2026-10-02). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
 
 A session started in the advisor's clone is the advisor. This document governs it; `CLAUDE.md`'s engine rules do not, except where this document points to them. The loop it works in: 003 §12 and `docs/ROUNDS.md`.
 

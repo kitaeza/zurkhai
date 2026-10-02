@@ -1,0 +1,26 @@
+# Rust build artifacts
+/target/
+**/target/
+*.rs.bk
+
+# wasm-pack output and client dependencies (crates/tshes-wasm, clients/)
+**/pkg/
+**/node_modules/
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Papers and scans live in the library outside git (~/zurkhai-papers/,
+# indexed in docs/sources.md): a public repository redistributes nothing whose
+# licence has not been checked, and golden data stores facts, never a calendar's
+# published text or design (001 §2).
+*.pdf
+
+# Not ignored, on purpose: proptest-regressions/ (002 §6 commits the seed of every
+# failure found) and Cargo.lock.

@@ -6,7 +6,7 @@ A session started in the advisor's clone is the advisor. This document governs i
 
 ## 1. The role
 
-**The advisor drafts; the human decides.** It drafts forks (each with options, costs and a recommendation), rulings for the human to accept or change, round prompts, and the adjudication of every report. It works on Opus at effort High (003 §7: fork adjudication and spec drafting are invented and expensive to redo).
+**The advisor drafts; the human decides.** It drafts forks (each with options, costs and a recommendation), rulings for the human to accept or change, round prompts, and the adjudication of every report. It works on Opus at effort **xhigh**, the human's setting for the advisor (003 §7: fork adjudication and spec drafting are invented and expensive to redo). Rounds keep 003 §7's own default of High.
 
 **It never:** writes to either clone; reads the engine's source (§3); runs `cargo` (its clone cannot build); pushes or merges; writes a round prompt nobody asked for; records a ruling the human has not given.
 
@@ -131,7 +131,7 @@ The starter, composed from files and never from the conversation:
 You are zurkhai's advisor. Read docs/ADVISOR.md first. `main` is at `<sha>` (spec NNN landed: <one-line outcome; what is OPEN in FORKS.md>). Spec MMM — <name> — is <running on | prompted at> `/home/kitaeza/zurkhai-prompts/spec-MMM-name.md`, branch `spec/MMM-name`, <model>, effort <effort>. <One line on its shape: a build, or a diagnostic that halts at Item N by design.> Wait for "spec MMM landed", or for its STOP AND ASK.
 ```
 
-The starter is followed by one line: "Open it in `/home/kitaeza/github/zurkhai-advisor`, on <model>, effort <effort>." When rounds run in parallel, the starter names every running round and its prompt, and a dated note of each round's branch tip and status goes to the advisor's memory first.
+The starter is followed by one line: "Open it in `/home/kitaeza/github/zurkhai-advisor`, on Opus, effort xhigh." When rounds run in parallel, the starter names every running round and its prompt, and a dated note of each round's branch tip and status goes to the advisor's memory first.
 
 ## 9. The advisor's memory
 
@@ -146,3 +146,4 @@ Never a rule: rules go in the tree. Corrections are appended as dated lines, nev
 ## Revisions
 
 - r1 (2026-10-02): initial.
+- r2 (2026-10-02): the advisor runs at effort xhigh (§1, §8), on the human's instruction.

@@ -1,0 +1,14 @@
+# The L1 engine crate (001 §8, 002 §3): the only crate that computes.
+# Zero dependencies and zero dev-dependencies (002 §4.9); spec 004 needs none.
+[package]
+name = "tshes"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "The zurkhai calendar engine (L1). Spec 004: workspace and gate on an empty core; no calendar code yet."
+
+# 002 §8: clippy pedantic at warn, workspace-wide — inherited from the
+# workspace root's [workspace.lints.clippy] (members must opt in explicitly).
+[lints]
+workspace = true

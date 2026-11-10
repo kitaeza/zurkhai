@@ -1,0 +1,9 @@
+# The toolchain pin (002 §2): the stable version current when the repo was
+# created — 1.99.0, ruled by the human on 2026-11-10 (FORKS.md F13, (a)).
+# Bumped deliberately in a PR, never implicitly. DEBT.md D-5: the round that
+# creates crates/tshes-ffi raises the pin to at least 1.99.1.
+[toolchain]
+channel = "1.99.0"
+components = ["rustfmt", "clippy"]
+targets = ["wasm32-unknown-unknown"]
+profile = "minimal"

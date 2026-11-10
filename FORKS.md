@@ -94,3 +94,17 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Options:** (a) Pushed to the public origin, publishing the drafts. (b) Kept locally only, so the history lives on one machine. (c) Pushed to a private mirror.
 - **Status:** OPEN
 - Until ruled, each branch is kept locally, neither pushed nor deleted.
+
+### F12 — A round running on a model outside 003 §7's table
+- **Raised:** 2026-11-10, spec 004 ADDENDUM 1 (the advisor's fork 1).
+- **Question:** May a round run on a model outside 003 §7's table, and how is it recorded?
+- **Options:** (a) a one-round trial on round 004 (DeepSeek V4 Pro, in CodeWhale), recorded in this row; 003's next revision decides the general policy. (b) Revise 003 §7 first. (c) Keep 004 on Sonnet 5.5, in Claude Code.
+- **Status:** RULED
+- **Ruled:** 2026-11-10, (a). V4 Pro over V4 Flash, also ruled 2026-11-10.
+
+### F13 — Which Rust stable does round 004 pin
+- **Raised:** 2026-11-10, spec 004 Fork 1 (Item 1's stop: rustup's current stable is newer than the repository's creation date).
+- **Question:** Pin 1.99.0 (stable current at the repository's creation, 2026-10-02) or 1.99.1 (rustup's current stable, released 2026-10-13 [CORRECTED 2026-11-10: the date in rustup's version string "(58cf8f9c3 2026-10-13)" is the commit date, not a release date; 1.99.1 was released on 2026-10-15 per RELEASES.md, as in R3])?
+- **Options:** (a) 1.99.0 — 002 §2's literal reading. (b) 1.99.1 — rustup's current stable. (c) another version the human names.
+- **Status:** RULED
+- **Ruled:** 2026-11-10, (a) — pin 1.99.0, MSRV 1.99.0 (002 §2's reading).

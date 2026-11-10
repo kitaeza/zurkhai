@@ -1,0 +1,20 @@
+# cargo-deny configuration — 002 §4.9: `cargo deny check` runs in the gate
+# for licences and advisories across the workspace. The workspace has zero
+# third-party dependencies this round, so every section guards the future,
+# not the present. Shape follows cargo-deny 0.20.2's own template
+# (`cargo deny init`); the `allow` list is set, the rest are the defaults.
+
+[advisories]
+
+[licenses]
+# 002 §2: the project's own licence; dependencies must be MIT or Apache-2.0
+# (or carry an SPDX expression satisfied by either).
+allow = ["MIT", "Apache-2.0"]
+
+[bans]
+multiple-versions = "warn"
+wildcards = "allow"
+
+[sources]
+unknown-registry = "warn"
+unknown-git = "warn"

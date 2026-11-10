@@ -47,3 +47,35 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Pinned by:** not pinned
 - **TRIGGER:** before the first client is released (M5).
 - **Status:** OPEN
+
+### D-4 — 003 §7 names no non-Claude model
+- **Filed:** 2026-11-10, spec 004 ADDENDUM 1 (R1, FORKS.md F12).
+- **Kind:** METHOD
+- **Statement:** 003 §7's model table names only Claude models. Round 004 runs outside that table under a one-round trial (DeepSeek V4 Pro, in CodeWhale). 003's next revision decides the general policy for non-Claude models, with round 004's landing as its evidence.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next revision of 003.
+- **Status:** OPEN
+
+### D-5 — The pin 1.99.0 predates the FFI `bool` miscompilation fix in 1.99.1
+- **Filed:** 2026-11-10, spec 004 ADDENDUM 2 (R3, FORKS.md F13).
+- **Kind:** TOOLING
+- **Statement:** The pinned toolchain, Rust 1.99.0, predates 1.99.1, which fixes "rustc: fix miscompilation of FFI `bool` return values on x86_64" (RELEASES.md, "Version 1.99.1 (2026-10-15)"; FETCHED by the advisor, 2026-11-10). The core has no FFI, so the risk is confined to the future FFI wrapper.
+- **Pinned by:** not pinned
+- **TRIGGER:** the round that creates crates/tshes-ffi. That round raises the pin to at least 1.99.1, deliberately, in its own PR (002 §2), or it states why not. It also states whether the MSRV moves with the pin.
+- **Status:** OPEN
+
+### D-6 — CodeWhale writes session state inside the repository
+- **Filed:** 2026-11-10, spec 004 ADDENDUM 1 H4 (observed this round: .codewhale/state/).
+- **Kind:** TOOLING
+- **Statement:** The CodeWhale harness writes its own session state into the working directory (`.codewhale/state/`: subagents.v1.json, subagents.v1.lock, .gitignore). These files are never committed and never added to the repository's .gitignore (H4); every pre-commit `git status --porcelain` accounts for them.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round run in CodeWhale.
+- **Status:** OPEN
+
+### D-7 — The gate self-test leg is not in 002 §7's list
+- **Filed:** 2026-11-10, spec 004 Item 4 (the self-test leg, Item 5, extends 002 §7).
+- **Kind:** DOCS
+- **Statement:** tools/gate.sh runs one leg beyond 002 §7's list: the gate self-test (spec 004 Item 5). 002's next revision should list it, so the spec's gate list matches the gate as built.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next revision of 002.
+- **Status:** OPEN

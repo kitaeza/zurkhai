@@ -1,0 +1,48 @@
+# The hosted CI (002 §7, spec 004 Item 4). Both jobs run the same gate legs
+# the local runs use — the legs are defined once, in tools/gate.sh, so hosted
+# and local cannot drift. Reasoned, not run, until the human's first push
+# (METHOD rule 17; rounds never push).
+#
+# Third-party actions used, and their pinning:
+#   actions/checkout@v4 — pinned by major-version tag (v4). It cannot be
+#   pinned by commit SHA this round: resolving the tag to a SHA needs network,
+#   which spec 004's GRANTS do not include.
+# No other third-party actions: rustup and cargo come preinstalled on
+# ubuntu-latest.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  gate:
+    # The 002 §7 gate on the pinned toolchain: rust-toolchain.toml pins
+    # 1.99.0, and rustup's cargo shim installs that toolchain on the runner
+    # automatically on first use.
+    name: gate (pinned toolchain, every leg of tools/gate.sh)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the tree
+        uses: actions/checkout@v4
+      - name: Install cargo-deny (pinned version, 002 §4.9)
+        run: cargo install --locked cargo-deny --version 0.20.2
+      - name: Run the gate
+        run: bash tools/gate.sh
+
+  latest-stable:
+    # 002 §2: CI builds on both the MSRV and the latest stable. The `+stable`
+    # override is explicit, so it beats the rust-toolchain.toml pin by design.
+    name: build and test on latest stable (002 §2)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the tree
+        uses: actions/checkout@v4
+      - name: Install the latest stable toolchain
+        run: rustup toolchain install stable --profile minimal
+      - name: Test on latest stable (debug)
+        run: cargo +stable test --workspace
+      - name: Test on latest stable (release)
+        run: cargo +stable test --workspace --release

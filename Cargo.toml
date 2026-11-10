@@ -1,0 +1,20 @@
+# The zurkhai workspace (001 §8; spec 002 §2, §3).
+[workspace]
+resolver = "3" # edition 2024's resolver, explicit so cargo stops warning
+members = ["crates/tshes"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+# MSRV, equal to the pinned toolchain at start (002 §2; FORKS.md F13, ruled
+# 2026-11-10, (a) — pin 1.99.0, MSRV 1.99.0).
+rust-version = "1.99.0"
+license = "MIT OR Apache-2.0"
+
+# Clippy pedantic at warn, workspace-wide (002 §8).
+[workspace.lints.clippy]
+pedantic = "warn"
+
+# 002 §4.3 [CI]: overflow is checked in every profile.
+[profile.release]
+overflow-checks = true

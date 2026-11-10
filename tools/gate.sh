@@ -13,8 +13,14 @@
 # Exit status: 0 iff every run leg passed.
 set -u
 
-GATE_ROOT="$(dirname "$(readlink -f "$0")")/.."
+GATE_ROOT="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
 MANIFEST="$GATE_ROOT/Cargo.toml"
+# The caller's directory must not matter (spec 005 Item 1b). rustup chooses
+# the toolchain from the current directory (rust-toolchain.toml, searched
+# upward from the cwd), never from `--manifest-path`; measured, spec 005: run
+# from outside the repository, the cargo legs ran on the machine's default
+# stable instead of the pin. So the gate enters its own tree first.
+cd "$GATE_ROOT" || exit 2
 # The MSRV is read from the workspace manifest, never typed twice (002 §2:
 # rust-version equals the pinned toolchain at start).
 MSRV="$(sed -n 's/^rust-version = "\([0-9][0-9.]*\)".*/\1/p' "$MANIFEST" | head -n 1)"
@@ -75,7 +81,7 @@ leg_build_wasm() {
 
 leg_deny() {
     echo "tool: $(cargo deny --version)"
-    (cd "$GATE_ROOT" && cargo deny check)
+    cargo deny check
 }
 
 leg_msrv() {
@@ -117,18 +123,35 @@ leg_no_alloc_check() {
     return 0
 }
 
-# Spec 004 Item 5d: 002 §4.9 — core has zero dependencies. A path dependency
-# needs no network, so cargo-deny does not catch it: the gate checks the
-# manifest itself.
+# Spec 004 Item 5d, rewritten by spec 005 Item 1a: 002 §4.9 — core has zero
+# dependencies; dev-dependencies are allowed. A path dependency needs no
+# network, so cargo-deny does not catch it. The leg reads the manifest as
+# Cargo reads it (`cargo metadata --no-deps`): the text-based leg of spec 004
+# passed a `[dependencies.<name>]` table and a `[target.'cfg(unix)'.dependencies]`
+# section unseen (measured, spec 005). Cargo gives each dependency a kind:
+# null (normal), "build" or "dev"; only "dev" passes.
 leg_zero_deps_check() {
-    echo "check: crates/tshes/Cargo.toml has no [dependencies], [dev-dependencies] or [build-dependencies] (002 §4.9)"
-    local hits
-    hits="$(grep -nE '^\[(dev-)?dependencies\]|^\[build-dependencies\]' "$CORE_TOML" || true)"
-    if [ -n "$hits" ]; then
-        echo "ERROR zero-deps-check: crates/tshes must have zero dependencies (002 §4.9):"
-        echo "$hits"
+    echo "check: cargo metadata --no-deps lists no normal or build dependency for tshes; dev-dependencies allowed (002 §4.9)"
+    local meta bad dev
+    if ! command -v jq > /dev/null; then
+        echo "ERROR zero-deps-check: jq is required to read cargo metadata and was not found"
         return 1
     fi
+    if ! meta="$(cargo metadata --manifest-path "$MANIFEST" --no-deps --format-version 1)"; then
+        echo "ERROR zero-deps-check: cargo metadata failed"
+        return 1
+    fi
+    if ! printf '%s' "$meta" | jq -e '[.packages[] | select(.name == "tshes")] | length == 1' > /dev/null; then
+        echo "ERROR zero-deps-check: cargo metadata does not list exactly one package named tshes"
+        return 1
+    fi
+    bad="$(printf '%s' "$meta" | jq -r '.packages[] | select(.name == "tshes") | .dependencies[] | select(.kind != "dev") | "ERROR zero-deps-check: crates/tshes has a \(.kind // "normal") dependency on \(.name) (target: \(.target // "any")) (002 §4.9)"')"
+    if [ -n "$bad" ]; then
+        echo "$bad"
+        return 1
+    fi
+    dev="$(printf '%s' "$meta" | jq -r '[.packages[] | select(.name == "tshes") | .dependencies[] | select(.kind == "dev") | .name] | if length == 0 then "none" else join(",") end')"
+    echo "zero-deps ok: no normal or build dependency; dev-dependencies: $dev"
     return 0
 }
 

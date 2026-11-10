@@ -38,7 +38,7 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Statement:** 002 §8 requires calendar terms to use the transliteration given in `docs/glossary.md`, one spelling per term. The file does not exist yet, and its spellings must come from sources, not from memory.
 - **Pinned by:** not pinned
 - **TRIGGER:** the first round that names a calendar term in code (M1) creates it.
-- **Status:** OPEN
+- **Status:** PAID 2026-11-10, 4935c36 (spec 005 created `docs/glossary.md`, one spelling per term, each from Janson v1 with its page)
 
 ### D-3 — Two naming checks before the first client
 - **Filed:** 2026-10-02, 001 §11 (F3).
@@ -78,4 +78,28 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Statement:** tools/gate.sh runs one leg beyond 002 §7's list: the gate self-test (spec 004 Item 5). 002's next revision should list it, so the spec's gate list matches the gate as built.
 - **Pinned by:** not pinned
 - **TRIGGER:** the next revision of 002.
+- **Status:** OPEN
+
+### D-8 — The workflow pins actions/checkout by major-version tag, not by commit SHA
+- **Filed:** 2026-11-10, spec 005 Item 1c (an accepted risk that spec 004 stated only in `.github/workflows/ci.yml`'s header comment, METHOD rule 56).
+- **Kind:** TOOLING
+- **Statement:** `.github/workflows/ci.yml` uses `actions/checkout@v4` in both jobs. A major-version tag is movable: a retagged or compromised `v4` would run in this repository's CI with the job's token. Pinning by full commit SHA (the tag kept in a comment) removes the risk; resolving a tag to a SHA needs a network lookup that round 004's GRANTS did not include. Accepted until the trigger.
+- **Pinned by:** not pinned
+- **TRIGGER:** before the human's first push of `main` to a public remote, which is the hosted workflow's first run.
+- **Status:** OPEN
+
+### D-9 — Genden and Tsurphu are not implemented: `to_zdate` and `to_gregorian` return `Err(SystemNotImplemented)` for them
+- **Filed:** 2026-11-10, spec 005 Item 3 (METHOD rule 33: a test that pins a known gap names the entry).
+- **Kind:** COVERAGE
+- **Statement:** Spec 005 implements Phugpa only. For `System::Genden` and `System::Tsurphu` the engine computes nothing and returns `Err(Error::SystemNotImplemented)`; it never falls back to Phugpa (a fallback would answer 001's Q1 by accident). Out of scope until M2 (001 §10).
+- **Pinned by:** `tests/system_not_implemented.rs::genden_not_yet_supported`, `tsurphu_not_yet_supported` (they pin the gap: they go red, deliberately, the day M2 lands, and are replaced by the Genden and Tsurphu tests).
+- **TRIGGER:** the round that implements Genden or Tsurphu (M2) replaces the matching test and closes this entry for that system.
+- **Status:** OPEN
+
+### D-10 — Janson v1, page 1, gives "Sunday" for 31 December 2007, which eq. (9.1) makes a Monday
+- **Filed:** 2026-11-10, spec 005 Item 5 (the worked examples).
+- **Kind:** PROVENANCE
+- **Statement:** The date line on page 1 of Janson v1 reads "31 December, 2007 (Sunday 23, month 11, Fire–Pig year)". The date triple agrees with the engine (23rd of month 11, Fire–Pig), but JD 2454466 is a Monday by eq. (9.1), p. 28 with Table 5, and 31 December 2007 was a Monday. The page's other date, 8 January 2014 "Wednesday 8, month 11, Water–Snake year", agrees in every part. So the weekday word on page 1 is not an oracle: no round uses it as a T5 fact until the discrepancy is explained.
+- **Pinned by:** `crates/tshes/tests/worked_examples.rs::header_date_2007_weekday_word_disagrees_with_eq_9_1_in_the_paper`
+- **TRIGGER:** round 006 (the T5 tables), or any round that takes a weekday from Janson v1, or the day a later version of the paper enters the library.
 - **Status:** OPEN

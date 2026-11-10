@@ -11,7 +11,9 @@
 #
 # Order: a clean control first (Item 5a — a self-test whose clean copy fails
 # proves nothing), then the [CI] plants (Item 5b), the overflow control
-# (Item 5c), and the ruled-but-unmarked plants (Item 5d).
+# (Item 5c), and the ruled-but-unmarked plants (Item 5d). Spec 005 Item 1
+# adds the zero-dependencies plants (zd_*, with a dev-dependency control) and
+# the run from outside the tree (e_outside_cwd).
 #
 # The legs each copy drives: everything except the self-test itself (a gate
 # run inside a copy must not recurse into its own self-test) and cargo deny
@@ -37,9 +39,16 @@ copy_workspace() { # $1: copy name
     tar -C "$REPO_ROOT" --exclude=.git --exclude=target --exclude=.codewhale -cf - . | tar -C "$SCRATCH/$1" -xf -
 }
 
+# A copy's target directory is deleted as soon as its gate has run (the log
+# stays): with a dev-dependency in the tree each copy builds its own compiled
+# dependencies, and 26 of them together exceeded the disk quota in spec 005's
+# final gate ("Disk quota exceeded" in the last plants). Peak use is one.
 run_gate() { # $1: copy name — runs the copy's gate, logs to "$SCRATCH/$1.log"
     export CARGO_TARGET_DIR="$SCRATCH/target-$1"
-    bash "$SCRATCH/$1/tools/gate.sh" $LEGS > "$SCRATCH/$1.log" 2>&1
+    local rc=0
+    bash "$SCRATCH/$1/tools/gate.sh" $LEGS > "$SCRATCH/$1.log" 2>&1 || rc=$?
+    rm -rf "$SCRATCH/target-$1"
+    return "$rc"
 }
 
 plant_lines() { # plant_lines <copy> <line>... — appends to the copy's lib.rs
@@ -218,6 +227,93 @@ printf '%s\n' \
     > "$SCRATCH/d4_path_dep/crates/planted-dep/Cargo.toml"
 printf '%s\n' '// A planted path dependency (spec 004 Item 5d).' > "$SCRATCH/d4_path_dep/crates/planted-dep/src/lib.rs"
 expect_fail d4_path_dep 'zero-deps-check'
+
+# --- spec 005 Item 1a: the zero-dependencies leg reads Cargo's own view ----
+# Spec 004's leg grepped the manifest for section headers and passed the first
+# two shapes below unseen (measured, spec 005). The leg now asks Cargo; each
+# plant asserts the leg's own named message, and the control proves the leg
+# still passes what 002 §4.9 allows (dev-dependencies).
+plant_dep_manifest() { # plant_dep_manifest <copy> <manifest line>... — a path-dependency crate, declared by the given lines
+    local copy="$1"
+    shift
+    mkdir -p "$SCRATCH/$copy/crates/planted-dep/src"
+    printf '%s\n' \
+        '[package]' \
+        'name = "planted-dep"' \
+        'version = "0.1.0"' \
+        'edition = "2024"' \
+        'rust-version = "1.99.0"' \
+        'license = "MIT OR Apache-2.0"' \
+        > "$SCRATCH/$copy/crates/planted-dep/Cargo.toml"
+    printf '%s\n' '// A planted path dependency (spec 005 Item 1a).' > "$SCRATCH/$copy/crates/planted-dep/src/lib.rs"
+    printf '%s\n' '' "$@" >> "$SCRATCH/$copy/crates/tshes/Cargo.toml"
+}
+
+expect_pass() { # expect_pass <copy> <ERE the log must contain> — the gate must pass AND print the named line
+    local copy="$1"
+    local pattern="$2"
+    PLANTS=$((PLANTS + 1))
+    local rc=0
+    run_gate "$copy"
+    rc=$?
+    if [ "$rc" -ne 0 ]; then
+        echo "FAIL control $copy: the gate rejected it; expected it to pass"
+        FAILURES=$((FAILURES + 1))
+    elif grep -E "$pattern" "$SCRATCH/$copy.log"; then
+        echo "PASS control $copy: the gate passed it and printed: $pattern"
+    else
+        echo "FAIL control $copy: the line '$pattern' is not in the gate output"
+        FAILURES=$((FAILURES + 1))
+    fi
+}
+
+copy_workspace zd_tbl
+plant_dep_manifest zd_tbl '[dependencies.planted-dep]' 'path = "../planted-dep"'
+expect_fail zd_tbl 'ERROR zero-deps-check: crates/tshes has a normal dependency on planted-dep \(target: any\)'
+
+copy_workspace zd_cfg
+plant_dep_manifest zd_cfg "[target.'cfg(unix)'.dependencies]" 'planted-dep = { path = "../planted-dep" }'
+expect_fail zd_cfg 'ERROR zero-deps-check: crates/tshes has a normal dependency on planted-dep \(target: cfg\(unix\)\)'
+
+copy_workspace zd_build
+plant_dep_manifest zd_build '[build-dependencies]' 'planted-dep = { path = "../planted-dep" }'
+expect_fail zd_build 'ERROR zero-deps-check: crates/tshes has a build dependency on planted-dep'
+
+# The control: a dev-dependency is allowed (002 §4.9), so every driven leg
+# passes and the leg says what it saw. The manifest already has a
+# [dev-dependencies] table (proptest, spec 005), so the planted line goes INTO
+# that table: a second header would be a duplicate key and the copy would not
+# even load (the control failed for that reason in spec 005's first gate runs).
+copy_workspace zd_dev_control
+plant_dep_manifest zd_dev_control
+sed -i '/^\[dev-dependencies\]$/a planted-dep = { path = "../planted-dep" }' "$SCRATCH/zd_dev_control/crates/tshes/Cargo.toml"
+expect_pass zd_dev_control 'zero-deps ok: no normal or build dependency; dev-dependencies: planted-dep,proptest'
+
+# --- spec 005 Item 1b: the caller's directory must not matter --------------
+# rustup picks the toolchain from the cwd, not from --manifest-path (measured,
+# spec 005). This plant runs the copy's gate from a directory outside every
+# workspace, where rustup's default is not the pin, and asserts that every
+# toolchain line the legs print is the pin — read from the copy's own
+# rust-toolchain.toml, never typed here. RUSTUP_TOOLCHAIN is unset so the
+# plant discriminates on the directory alone.
+CARGO_LEGS="fmt clippy test test_release build_wasm msrv"
+copy_workspace e_outside_cwd
+PLANTS=$((PLANTS + 1))
+PIN="$(sed -n 's/^channel = "\(.*\)"$/\1/p' "$SCRATCH/e_outside_cwd/rust-toolchain.toml")"
+EXPECT_TC=$(set -- $CARGO_LEGS; echo $#)
+export CARGO_TARGET_DIR="$SCRATCH/target-e_outside_cwd"
+E_RC=0
+(cd "$SCRATCH" && env -u RUSTUP_TOOLCHAIN bash "$SCRATCH/e_outside_cwd/tools/gate.sh" $LEGS) > "$SCRATCH/e_outside_cwd.log" 2>&1 || E_RC=$?
+rm -rf "$SCRATCH/target-e_outside_cwd"
+PINNED_LINES="$(awk -v p="toolchain: rustc $PIN " 'index($0, p) == 1 { n++ } END { print n + 0 }' "$SCRATCH/e_outside_cwd.log")"
+ALL_TC_LINES="$(awk '/^toolchain:/ { n++ } END { print n + 0 }' "$SCRATCH/e_outside_cwd.log")"
+if [ "$E_RC" -eq 0 ] && [ "$PINNED_LINES" -eq "$EXPECT_TC" ] && [ "$ALL_TC_LINES" -eq "$EXPECT_TC" ]; then
+    echo "PASS plant e_outside_cwd: run from outside the tree, the gate passed; $PINNED_LINES of $ALL_TC_LINES toolchain lines are 'toolchain: rustc $PIN' ($EXPECT_TC legs expected)"
+else
+    echo "FAIL plant e_outside_cwd: gate exit $E_RC; $PINNED_LINES pinned toolchain lines and $ALL_TC_LINES toolchain lines in total, $EXPECT_TC expected of each ('toolchain: rustc $PIN')"
+    grep -E '^(toolchain:|error:|FAIL)' "$SCRATCH/e_outside_cwd.log"
+    FAILURES=$((FAILURES + 1))
+fi
 
 # --------------------------------------------------------------------------
 echo

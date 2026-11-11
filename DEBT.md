@@ -136,3 +136,35 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Pinned by:** not pinned
 - **TRIGGER:** the next revision of 001.
 - **Status:** OPEN
+
+### D-15 — Three of round 006's `method:` lines describe a conversion their files do not have, and the second pass cannot be re-run from the tree
+- **Filed:** 2026-11-11, spec 007 Item 0 (R1; the advisor's reading RELAYED, 2026-11-11, confirmed against the files).
+- **Kind:** DOCS
+- **Statement:** MEASURED by reading `golden/reference/janson-v1-table{1,7,8,9}-*.meta.yaml` and the CSVs. (1) The `method:` lines of Tables 7, 8 and 9 repeat Table 1's first-pass sentence, "converted to this CSV by a mechanical awk step (the printed day/month and the year to an ISO date; the name split into element and animal; sorted by year)". Table 1's CSV has dates and names, and its line fits. Table 7's CSV (`year,leap_month`) and Table 8's (`tibetan_year,month,tshes,kind`) hold no date and no name, so neither half of the sentence fits them. Table 9's CSV (`tibetan_year,gregorian_date`) holds dates and no name, so the dates half fits and the names half does not. (2) Spec 006's report, "Item 3 — 3a–b", says "The second-pass commands are the awk lines recorded in each meta's `method:`". Each `method:` describes the second-pass parse in prose ("a second awk script", "the column whose heading's right edge is nearest…") and holds no command; the scripts were scratch and no script is in the tree. So the second pass cannot be re-run from the tree. The data rows are not in question: RELAYED (the advisor, at the 006 landing, 2026-11-11), all 195 T5 rows (120 + 31 + 21 + 23) were re-measured against the advisor's own pdftotext parse and against the T4 fixture.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that writes `golden/reference/`. The fix: the three `method:` lines are corrected in place, each with a `[CORRECTED yyyy-mm-dd: …]` record (GATED.md, `golden/**`); and either the second-pass commands are written into the metas, or the metas say they were not kept. Spec 007 does not make it.
+- **Status:** OPEN
+
+### D-16 — 001 §5.2's "Source status" cells disagree with each other and with Janson v1
+- **Filed:** 2026-11-11, spec 007 Item 3 (the table, and "001 §5.2's Source status cells").
+- **Kind:** DOCS
+- **Statement:** MEASURED against Janson v1 (spec 007's Item 3). (1) Year mewa and year parkha are named in two rows each: rows 7 and 8 say TO VERIFY, row 10 says "Janson / Henning". (2) Row 10 names Janson for year parkha; Janson v1 gives no rule for a year's trigram (Appendix E.1, pp. 73–78). (3) Rows 3, 4 and 5 say "verify section"; the sections are §10 (iv), (vi)–(vii) and (viii), pp. 30–31; row 1's cell is "—" though §9, p. 28, defines the weekday and the planet. (4) Row 4's "yoga (27)" is §10's yoga; Janson v1 also calls a different quantity "yoga" (the elemental yoga, p. 83), which a reader of "yoga" must not take for it. 001 is accepted, so it changes only by revision; spec 007 does not edit it.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next revision of 001.
+- **Status:** OPEN
+
+### D-17 — Schuh is named by 003 §4's leg ③ but is in neither 001 §9 nor `docs/sources.md`'s bibliography
+- **Filed:** 2026-11-11, spec 007 Item 1.
+- **Kind:** DOCS
+- **Statement:** 003 §4's leg ③ lists "Janson, Henning, Schuh, Reingold–Dershowitz". 001 §9 and the bibliography of `docs/sources.md` list Janson, Henning, Reingold–Dershowitz, Salmi and Lotsawa House, and no Schuh. Janson v1 says its description "is based mainly on the books by Schuh [12] and Henning [7]" (p. 3) and cites Schuh as refs. [1], [12], [13] and [38] (pp. 84, 86). No work of Schuh is in the paper library. Which of his works the bibliography lists, and what each is trusted for, is for the round that first needs one; Janson's ref. [12] is Dieter Schuh, *Untersuchungen zur Geschichte der tibetischen Kalenderrechnung*, Franz Steiner Verlag, Wiesbaden, 1973.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that edits the bibliography of `docs/sources.md`, or the first round whose leg ③ would read Schuh.
+- **Status:** OPEN
+
+### D-18 — Rows 6, 7 and 8 of 001 §5.2 are explicitly deferred
+- **Filed:** 2026-11-11, spec 007 ADDENDUM 1 (R3; Items 10 and 11).
+- **Kind:** COVERAGE
+- **Statement:** Rows 6, 7 and 8 of 001 §5.2 are explicitly deferred (001 §10), by the human's ruling on F15–F21. Spec 007's Item 3 table holds the ten lines: FOUND in Janson v1 T1, T2, T3, T5, T6, T9, T10 (Appendix E); NOT IN JANSON V1 T4, T7, T8. The reasons, each with the value measured: no check of any FOUND line exists beyond the paper itself (the T4 library computes none; Item 4 is the paper against itself, METHOD rule 35); the identification of "mewa" and "parkha" with Janson's "number" and "trigram" is INFERRED (the words occur in no library source); Janson v1 calls its trigram numbering "perhaps not traditional" (p. 74); the lunar-day lines depend on the version: T6 and T10 through the month's animal A (Table 24's two columns give a different trigram and a different number on 360 of 360 pairs, Item 10a), T2 through the month's element ((E.6) or (E.7)); a candidate Buryat source labels its months by Janson's Tsurphu rules (27 of 27 animals match Table 24's Tsurphu column, 0 of 27 its Phugpa column; Item 10b; not admitted, not golden data, not a Q1 finding). The round that reopens the rows starts from that table and puts F15–F18's questions again. At 001's next revision, rows 6–8 say "deferred" (with D-16).
+- **Pinned by:** not pinned
+- **TRIGGER:** the first of: (i) an admitted T1–T3 source prints one of these attributes, or names мэнгэ or парка; (ii) an L2 rule (M4 or later) needs one in its condition; (iii) the Q1 verdict spec is accepted (M3).
+- **Status:** OPEN

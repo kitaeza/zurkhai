@@ -10,3 +10,4 @@ A convenience only. The tree is authoritative for the next free number (`ls docs
 | 004 | `004-workspace-gate.md` | The workspace and the gate | draft |
 | 005 | `005-phugpa-core.md` | The Phugpa core | draft |
 | 006 | `006-reference-fixtures.md` | The reference fixtures: T5 tables from Janson v1, the T4 oracle, P5 and P6 | draft |
+| 007 | `007-to-verify-attributes.md` | The TO-VERIFY attributes of 001 §5.2: what Janson v1 defines | draft |

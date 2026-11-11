@@ -4,9 +4,10 @@
 # (METHOD rule 17; rounds never push).
 #
 # Third-party actions used, and their pinning:
-#   actions/checkout@v4 — pinned by major-version tag (v4). It cannot be
-#   pinned by commit SHA this round: resolving the tag to a SHA needs network,
-#   which spec 004's GRANTS do not include.
+#   actions/checkout — pinned by commit id, release v4.4.0 (DEBT.md D-8, paid
+#   by spec 010). The id is the commit that the tags v4 and v4.4.0 of
+#   actions/checkout both point to, read by two routes (git ls-remote and the
+#   GitHub API's matching-refs) on 2026-11-12.
 # No other third-party actions: rustup and cargo come preinstalled on
 # ubuntu-latest.
 
@@ -26,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the tree
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Install cargo-deny (pinned version, 002 §4.9)
         run: cargo install --locked cargo-deny --version 0.20.2
       - name: Run the gate
@@ -39,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the tree
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Install the latest stable toolchain
         run: rustup toolchain install stable --profile minimal
       - name: Test on latest stable (debug)

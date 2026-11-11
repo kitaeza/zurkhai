@@ -86,7 +86,7 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Statement:** `.github/workflows/ci.yml` uses `actions/checkout@v4` in both jobs. A major-version tag is movable: a retagged or compromised `v4` would run in this repository's CI with the job's token. Pinning by full commit SHA (the tag kept in a comment) removes the risk; resolving a tag to a SHA needs a network lookup that round 004's GRANTS did not include. Accepted until the trigger.
 - **Pinned by:** not pinned
 - **TRIGGER:** before the human's first push of `main` to a public remote, which is the hosted workflow's first run.
-- **Status:** OPEN
+- **Status:** PAID 2026-11-12, spec 010 (both `uses:` lines pin `actions/checkout` at the commit of its release v4.4.0)
 
 ### D-9 — Genden and Tsurphu are not implemented: `to_zdate` and `to_gregorian` return `Err(SystemNotImplemented)` for them
 - **Filed:** 2026-11-10, spec 005 Item 3 (METHOD rule 33: a test that pins a known gap names the entry).

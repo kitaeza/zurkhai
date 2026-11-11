@@ -13,3 +13,4 @@ A convenience only. The tree is authoritative for the next free number (`ls docs
 | 007 | `007-to-verify-attributes.md` | The TO-VERIFY attributes of 001 §5.2: what Janson v1 defines | draft |
 | 008 | `008-genden-tsurphu.md` | Genden and Tsurphu: the two other candidate systems, Gregorian ↔ ZDate from Janson v1; P5 for both | draft |
 | 009 | `009-henning-differential.md` | The Henning differential: TCG 1.06 against the engine's three systems, 1900–2100 | draft |
+| 010 | `010-publication.md` | Before the first public push: the CI pin, the history audit and map, the private mirror | draft |

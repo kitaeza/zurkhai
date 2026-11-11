@@ -94,8 +94,10 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Raised:** `docs/ROUNDS.md` §9.
 - **Question:** After a round is squash-merged, where does its branch — with its halts, resumes and STOP AND ASKs — live?
 - **Options:** (a) Pushed to the public origin, publishing the drafts. (b) Kept locally only, so the history lives on one machine. (c) Pushed to a private mirror.
-- **Status:** OPEN
-- Until ruled, each branch is kept locally, neither pushed nor deleted.
+- **Status:** RULED
+- **Ruled:** 2026-11-11, (c) — merged round branches go to a private mirror, the git remote `rounds`, and never to the public origin; after a merge's tree check the human pushes the branch there, checks that the mirror holds its tip, then deletes the local branch; the human: "agree with recommendations, go" (spec 010 R1).
+- **Built in:** spec 010 (`docs/ROUNDS.md` §9, r3)
+- Until ruled, each branch is kept locally, neither pushed nor deleted. (superseded: RULED 2026-11-11)
 
 ### F12 — A round running on a model outside 003 §7's table
 - **Raised:** 2026-11-10, spec 004 ADDENDUM 1 (the advisor's fork 1).
@@ -196,3 +198,11 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Options:** (a) keep (7.13) for all three, and record the 53 days (a `DEBT.md` entry with a TRIGGER); (b) switch all three to (7.24); (c) both, as a named variant of each system (not a default, `DEBT.md` D-1); (d) decide at the Q1 differential, with the engine unchanged and an entry that names the 53 days; (e) something not listed. The costs are in spec 009's Fork 2.
 - **Status:** RULED
 - **Ruled:** 2026-11-11, (a) — a2 = 1/28, Janson v1 (7.13), for Phugpa, Tsurphu and Genden; the 53 days on which (7.24) gives other dates are `DEBT.md` D-23; the human: "Agree with all recommendations" (spec 009 ADDENDUM 1, R7). The advisor's reasons, RELAYED: (1) 001 §6.4's P6 requires Phugpa to reproduce the T4 output exactly over 1900–2100 ("Phugpa reproduces T4 output exactly over at least 1900–2100"), and the T4 fixture equals the engine's (7.13) dump on every day (spec 009's report, §8); (2) Janson v1 A.2 (p. 38) and A.3 (p. 42) give Tsurphu and Genden the Phugpa values of the mean motions, a2 included, each with "see Remark 14" (FETCHED, spec 009 session 2, from the library copy through `pdftotext -layout`: A.2, p. 38, "the same values as given there for the Phugpa version of the constants m1, s1 and a1 (and m2, s2 and a2, see Remark 14)"; A.3, p. 42, "the same in the New Genden version as in the Phugpa version, see Section 7, and thus so are m2, s2 and a2, see Remark 14"); (3) Remark 14 calls (7.13) the value usually used when calculating calendars (FETCHED, p. 25: "the simpler (7.13) is usually used when calculating calendars, for example in the almanac [14]").
+
+### F26 — The commit email address on main, before the first public push
+- **Raised:** 2026-11-11, by the advisor, before the first public push; recorded by spec 010 Item 0.
+- **Question:** main's commits carried a personal email address of the human's, as author and committer. Publish them as they were, or rewrite them first?
+- **Options:** (a) publish them as they were; (b) rewrite every commit on main, the initial commit included, to the human's GitHub no-reply address, keep the old history in the private mirror, and commit a map from old commit ids to new.
+- **Status:** RULED
+- **Ruled:** 2026-11-11, (b), the initial commit included. The human: "keep mail address private"; "yes force-push".
+- **Built in:** the rewrite, by the human, before spec 010; the map, spec 010 (Item 3).

@@ -1,6 +1,6 @@
 # ROUNDS — how a round runs: the prompt, the session, the report, the merge
 
-Status: r2 (2026-11-11). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
+Status: r3 (2026-11-12). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
 
 This document is the working form of the loop in 003 §2 and §12. `docs/ADVISOR.md` covers what the advisor reads and does; `docs/METHOD.md` holds the rules cited here by number.
 
@@ -219,8 +219,10 @@ On the advisor's go, after "spec NNN landed" (`docs/ADVISOR.md` §6):
 1. Extract the squash message from the round's spec into a file first, and read it: `git -C /home/kitaeza/github/zurkhai show "spec/NNN-name:docs/specs/NNN-name.md" | awk '/^## The squash commit message/{f=1;next} f&&/^```/{if(g)exit; g=1; next} g' > <scratch>/NNN-squash.txt`. Its tail is the `Co-Authored-By` trailers; if one is missing, add it with `git commit --trailer`.
 2. `git -C /home/kitaeza/github/zurkhai checkout main && git -C /home/kitaeza/github/zurkhai merge --squash spec/NNN-name && git -C /home/kitaeza/github/zurkhai commit -F <scratch>/NNN-squash.txt`
 3. **The tree check:** `git -C /home/kitaeza/github/zurkhai rev-parse 'main^{tree}' 'spec/NNN-name^{tree}'` — the two hashes are equal, or the squash lost something.
-4. Push `main` when the human decides to publish.
-5. **The branch:** `git branch -d` always refuses after a squash (the tip is not an ancestor of `main`); the check that matters is step 3's. Whether round branches are pushed to the public origin, kept locally, or pushed to a private mirror is **F11** (`FORKS.md`, OPEN). Until it is ruled, the branch is kept locally — neither pushed nor deleted.
+4. **Push `main` to the public origin after every merge** (the human's ruling of 2026-11-11, R2 of spec 010). First the check: `git -C /home/kitaeza/github/zurkhai log --format='%ae%n%ce' origin/main..main | sort -u` must print only `8291740+kitaeza@users.noreply.github.com`, the human's GitHub no-reply address. If it prints anything else, the human does not push and asks the advisor. Then `git -C /home/kitaeza/github/zurkhai push origin main`. The first push is the exception to both halves: the public origin still holds the old initial commit, which the rewrite replaced (F26, below), so the range is all of `main`, and the check also prints `noreply@github.com`, the committer of the initial commit (it was made in GitHub's web interface); that one extra line is expected, and the push replaces origin's commit by a force-push, as the human ruled.
+5. **The branch goes to the private mirror, then is deleted** (F11 (c), RULED 2026-11-11). After step 3's tree check, run `git -C /home/kitaeza/github/zurkhai push rounds main spec/NNN-name`. Then check that `git -C /home/kitaeza/github/zurkhai ls-remote rounds refs/heads/spec/NNN-name` prints the commit that `git -C /home/kitaeza/github/zurkhai rev-parse spec/NNN-name` prints. Then run `git -C /home/kitaeza/github/zurkhai branch -D spec/NNN-name`. `-D` and not `-d`, because `git branch -d` always refuses after a squash (the tip is not an ancestor of `main`); the check that matters is step 3's, and the mirror's tip is step 5's. A round branch is never pushed to the public origin. The mirror is the git remote `rounds`, named here by its remote only.
+
+`main`'s history was rewritten once, before the first public push (F26): every commit's email address became the human's GitHub no-reply address. A commit id that the tree cites from before then is translated by `docs/specs/010-publication.md`, "The history map".
 
 **A stacked pair** (a round cut from an unmerged predecessor, only on the human's hold): the predecessor first by `merge --squash`; the successor second by `git read-tree -u --reset spec/<second> && git commit`, which takes its tree exactly; each tree-checked.
 
@@ -264,3 +266,4 @@ PATHS:        Every Bash call uses absolute paths and no cd. One command per cal
 
 - r1 (2026-10-02): initial.
 - r2 (2026-11-11): §10, the reviewer's brief; §1's loop and §3 name the reviewer (`docs/ADVISOR.md` r3, the human's ruling of 2026-11-11).
+- r3 (2026-11-12): §9 steps 4 and 5, and the history note; on the human's rulings of 2026-11-11 (F11 (c), the new row F26, and R2).

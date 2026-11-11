@@ -38,8 +38,8 @@ Pages are the printed page numbers of Janson v1 (the PDF's page index equals the
 | Project spelling | Fixed by | Janson v1's spelling, and page | Used in code as |
 |---|---|---|---|
 | Phugpa | 001 §4, §5.1 | "Phugpa (*phug-lugs*)", Appendix A.1, p. 38 (the "Phugpa version" is described in the main text, p. 1) | `System::Phugpa` |
-| Genden | 001 §4, §5.1 | "New Genden (Mongolian *Tögs buyant*)", Appendix A.3, p. 41 | `System::Genden` (not implemented: `DEBT.md` D-9) |
-| Tsurphu | 001 §4, §5.1 | "Tsurphu (*Tsurluk*)", Appendix A.2, p. 38 | `System::Tsurphu` (not implemented: `DEBT.md` D-9) |
+| Genden | 001 §4, §5.1 | "New Genden (Mongolian *Tögs buyant*)", Appendix A.3, p. 41. The column headed "Mongolia" in Tables 6–9 (pp. 50–54) is this version: A.3 begins "The Mongolian calendar is a version of the Tibetan" and "follows … a version of the Tibetan calendar known as New Genden" (pp. 40–41), and A.13 compares "the four different versions … in Appendices A.1–A.4" under the headings Phugpa, Tsurphu, Mongolia, Bhutan (p. 50). The paper's "Mongolian" version is the project's Genden | `System::Genden` (spec 008) |
+| Tsurphu | 001 §4, §5.1 | "Tsurphu (*Tsurluk*)", Appendix A.2, p. 38; the version of A.2, not the karana-Sun variant of Remark 22, p. 40 (`DEBT.md` D-19) | `System::Tsurphu` (spec 008) |
 | ZDate | 001 §5.1 | not Janson's term | `ZDate` |
 
 ## Arithmetic
@@ -50,6 +50,10 @@ Pages are the printed page numbers of Janson v1 (the PDF's page index equals the
 | epoch | Janson v1 | "epoch" (month `M₀` = 3 of year `Y₀`), §5, p. 14; E806, E1927, E1987 | `Epoch` |
 | true month count | Janson v1 | "true month count" `n`, §5, p. 15 (the "true month", *zla-dag*, p. 14) | the count `n` in `phugpa` |
 | intercalation index | Janson v1 | "intercalation index" `ix`, p. 14–15; eq. (5.7) | `β*` in the `Epoch` data |
+| epoch value of the intercalation index | Janson v1 | "the epoch value of the intercalation index" `β*`, A.2, p. 39 (59 for E1732, 14 for E1852; 10 for E1747, A.3, p. 42); "β* is the initial value of ix at the epoch", p. 15 | `Epoch::beta_star` |
+| leap-month rule | Janson v1 | "The traditional Phugpa leap month rule": a leap month is inserted when the intercalation index is 48 or 49, (5.8), p. 15; Tsurphu: 0 or 1, (A.9), p. 39; Genden: 46 or 47, (A.17), p. 43 | `Epoch`'s rounding shift (the 17, 0, 19 of eq. (5.10) and its versions) |
+| the constants β and γ, γ* | Janson v1 | β = 184 − β*, eq. (5.15), p. 17 (Phugpa) and the values 142, 187 (A.2, p. 40) and 172 (A.3, p. 43); γ and γ*, eqs. (5.30), (5.32), p. 18: 42 and 33 for Phugpa, 55 and 20 for Tsurphu and Genden | `Epoch::beta` (γ and γ* only in tests) |
+| rounding shift, grain | not Janson's terms | the engine's own: the shift is the `c` of n = ⌊(67M* + β* + c)/65⌋ − [ℓ] (17, 0, 19); the grain is the denominator an epoch's `m₀`, `s₀` are held over (Tsurphu's are finer, A.2, p. 39, Remark 20) | `Epoch` fields; private |
 | mean date | Janson v1 | "mean date (*gza' bar pa*)", eq. (7.1), p. 21 | in `true_date_numerator` |
 | true date | Janson v1 | "true date (*gza' dag*)", eq. (7.22), p. 24 | `true_date_numerator`, `end_day` |
 | mean sun | Janson v1 | "mean longitude of the sun (*nyi ma bar pa*)", eq. (7.5), p. 22 | in `true_date_numerator` |
@@ -61,4 +65,5 @@ Pages are the printed page numbers of Janson v1 (the PDF's page index equals the
 
 - **"Lunar day".** Janson's "lunar day" is the tshes interval. Western astrological "lunar days" are a different quantity and are never mixed with tshes (001 §2, §6.3).
 - **Leap day versus doubled.** Janson's leap day is the first of two days with one number; 001's `is_doubled` is true on the second. Both are recorded; the code follows 001.
-- **Month numbering.** A leap month takes the number of the *following* month in Phugpa (Janson v1, p. 11); the Bhutanese version does the opposite (p. 11, footnote 14; Appendix A.4, p. 44).
+- **Month numbering.** A leap month takes the number of the *following* month in Phugpa (Janson v1, p. 11, a statement about the Tibetan calendar generally), and Janson v1 gives no exception for the other two versions it describes as differences from Phugpa: Tsurphu (A.2, p. 39: the regular month's true month count is the rounded-down true month and "for a leap month we further subtract 1", so the leap month has the number of, and precedes, the regular month with that number) and Genden (A.3, p. 43: the same change to (5.9) and Remark 4, "with 48 replaced by 46", so the same shape). The general rule (5.24), p. 17, with the version's β, which Janson says holds for the other versions (p. 18), puts the leap month at the number of the following month. The Bhutanese version does the opposite (p. 11, footnote 14; Appendix A.4, p. 44) and is not implemented. Tables 7–9 (pp. 52–54) agree on every year: the engine's leap and regular months are checked against them (spec 008). One caveat for Genden: "The months [of the Mongolian calendar] are not numbered, but are named" (A.3, p. 43); the number 1–12 is Janson's computational numbering, which his Tables 7–8 use for the Mongolia column, and the month names (A.3, Appendix E.2) are not implemented: out of scope for spec 008, and localised names are `FORKS.md` F5 (OPEN).
+- **"Mongolia" and Genden.** The column headed "Mongolia" in Janson v1's Tables 6–9 is the Genden version (see the Systems table). The fixtures in `golden/reference/` name it `genden` and record the heading as printed in each meta's `location:`.

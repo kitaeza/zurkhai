@@ -5,11 +5,11 @@
 //! 1900-01-01 to 2100-12-31 (001 §6.4 P7; outside that range the answer is
 //! [`Error::OutOfRange`], never a wrong date and never a panic), from
 //! S. Janson, "Tibetan calendar mathematics", arXiv:1401.6285v1 (cited in the
-//! code as "Janson (arXiv:1401.6285v1)" with section, equation and page).
-//! [`System`] is an explicit parameter and has no default (`DEBT.md` D-1);
-//! Genden and Tsurphu return [`Error::SystemNotImplemented`] (`DEBT.md` D-9) and
-//! never fall back to Phugpa. The calendar terms are spelled as in
-//! `docs/glossary.md`.
+//! code as "Janson (arXiv:1401.6285v1)" with section, equation and page); spec
+//! 008 adds the Tsurphu and Genden versions (Appendix A.2, A.3) on the same
+//! mapping with their own epoch data. [`System`] is an explicit parameter and
+//! has no default (`DEBT.md` D-1); no system falls back to another. The calendar
+//! terms are spelled as in `docs/glossary.md`.
 //!
 //! Location dependence (001 §5.3) is a claim spec 005 checked against the
 //! paper, not an assumption: the mapping takes a Gregorian date and a system
@@ -43,17 +43,25 @@ pub use civil::{GregorianDate, Jdn};
 pub use fault::Error;
 pub use naming::{Animal, Element, Gender, RabjungCycle, YearInCycle, ZYear};
 
+/// The epoch each system's mapping uses: E806 for Phugpa (Janson
+/// (arXiv:1401.6285v1) §5, p. 14), E1732 for Tsurphu (A.2, p. 39), E1747 for
+/// Genden (A.3, p. 42). Another epoch of the same system gives the same
+/// calendar (spec 005, spec 008: tested over the whole range).
+const fn epoch_of(system: System) -> phugpa::Epoch {
+    match system {
+        System::Phugpa => phugpa::Epoch::E806,
+        System::Tsurphu => phugpa::Epoch::E1732,
+        System::Genden => phugpa::Epoch::E1747,
+    }
+}
+
 /// The `ZDate` of a Gregorian day under `system`.
 ///
 /// # Errors
 ///
-/// [`Error::OutOfRange`] outside 1900-01-01..=2100-12-31;
-/// [`Error::SystemNotImplemented`] for Genden and Tsurphu.
+/// [`Error::OutOfRange`] outside 1900-01-01..=2100-12-31.
 pub fn to_zdate(date: GregorianDate, system: System) -> Result<ZDate, Error> {
-    match system {
-        System::Phugpa => phugpa::to_zdate(&phugpa::Epoch::E806, date.to_jdn()),
-        System::Genden | System::Tsurphu => Err(Error::SystemNotImplemented),
-    }
+    phugpa::to_zdate(&epoch_of(system), date.to_jdn())
 }
 
 /// The Gregorian day of a `ZDate`, under the system the `ZDate` carries.
@@ -62,12 +70,8 @@ pub fn to_zdate(date: GregorianDate, system: System) -> Result<ZDate, Error> {
 ///
 /// [`Error::SkippedDay`] when no day carries the tshes; [`Error::InvalidField`]
 /// when the fields name no calendar day; [`Error::OutOfRange`] when the day lies
-/// outside 1900-01-01..=2100-12-31; [`Error::SystemNotImplemented`] for Genden
-/// and Tsurphu. The order of the checks is documented on
+/// outside 1900-01-01..=2100-12-31. The order of the checks is documented on
 /// [`phugpa::to_jdn`].
 pub fn to_gregorian(date: ZDate) -> Result<GregorianDate, Error> {
-    match date.system() {
-        System::Phugpa => phugpa::to_jdn(&phugpa::Epoch::E806, &date)?.to_gregorian(),
-        System::Genden | System::Tsurphu => Err(Error::SystemNotImplemented),
-    }
+    phugpa::to_jdn(&epoch_of(date.system()), &date)?.to_gregorian()
 }

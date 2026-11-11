@@ -23,8 +23,13 @@ pub enum Error {
     /// doubled flag on a tshes that is not repeated, a `skipped_before` that
     /// is not the one the engine reports for that day).
     InvalidField,
-    /// The computation system is not implemented yet; nothing was computed.
-    /// The engine never falls back to another system (`DEBT.md` D-9).
+    /// The computation system is not implemented; nothing was computed. The
+    /// engine never falls back to another system. Since spec 008 all three
+    /// systems of 001 §5.1 compute and no function returns this variant today;
+    /// it stays for a deferred system (the karana-Sun Tsurphu, `DEBT.md` D-19,
+    /// or the Bhutanese version) so that such a system fails loudly, never as
+    /// Phugpa. Removing a variant from a `#[non_exhaustive]` public enum is the
+    /// direction that cannot be undone once the crate is published (`DEBT.md` D-12).
     SystemNotImplemented,
     /// An internal invariant of the engine did not hold. This is a bug in
     /// the engine, never an expected result; the exhaustive properties

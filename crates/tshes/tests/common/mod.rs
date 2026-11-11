@@ -32,10 +32,15 @@ pub struct Day {
 
 /// Every day from 1900-01-01 to 2100-12-31, in order, each mapped to its Phugpa `ZDate`.
 pub fn all_days() -> Vec<Day> {
+    all_days_of(System::Phugpa)
+}
+
+/// Every day from 1900-01-01 to 2100-12-31, in order, each mapped to its `ZDate` under `system`.
+pub fn all_days_of(system: System) -> Vec<Day> {
     (first_jdn()..=last_jdn())
         .map(|jdn| {
             let date = Jdn::new(jdn).expect("jdn").to_gregorian().expect("date");
-            let z = to_zdate(date, System::Phugpa).expect("every supported day maps");
+            let z = to_zdate(date, system).expect("every supported day maps");
             Day { jdn, date, z }
         })
         .collect()

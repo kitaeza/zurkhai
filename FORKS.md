@@ -174,3 +174,11 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Options:** (a) admit it now as T2, the datsan's own website; (b) a candidate only: its `docs/sources.md` row and the library, and no golden rows until the M0 round's leg ① checks Sangha membership (001 §1), a statement that it is a zurkhai / Tibetan calendar (001 §6.3), and the publisher's terms (001 §8); (c) do not use it.
 - **Status:** RULED
 - **Ruled:** 2026-11-11, (b) — a candidate only; the human: "Ok agree" (spec 007 ADDENDUM 1, R5).
+
+### F23 — Which Tsurphu the engine implements (spec 008 R3)
+- **Raised:** 2026-11-11, by the advisor; filed, already ruled, by spec 008 Item 9.
+- **Question:** Janson v1 describes one Tsurphu (A.2, pp. 38–40) and notes that some Tsurphu almanacs take the true solar longitude, and in some the true date, from the karana calculation (Remark 22, p. 40). Which does the engine's `System::Tsurphu` compute?
+- **Options:** (a) A.2, the variant deferred; (b) both, the variant as a fourth system; (c) the variant only.
+- **Status:** RULED
+- **Ruled:** 2026-11-11, (a); the human: "Agree with all recommendations" (spec 008 R3). The advisor's reasons, RELAYED (measured 2026-11-11): Henning's published Tsurphu calendars (kalacakra.org) take the Sun's longitude from the karana calculation; his 2012 file differs from Janson v1's Table 8 Tsurphu column in months 4, 5 and 11, with every month length equal. The variant is `DEBT.md` D-19.
+- **Built in:** spec 008

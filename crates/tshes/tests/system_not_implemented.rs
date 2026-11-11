@@ -1,61 +1,15 @@
-//! Genden and Tsurphu are not implemented (spec 005; `DEBT.md` D-9). The engine
-//! computes nothing for them and returns an error; it never falls back to
-//! Phugpa. These tests pin that gap (METHOD rule 33): they are replaced by the
-//! Genden and Tsurphu tests by the round that implements those systems (M2).
+//! The engine's error type (002 §5). This file held the tests that pinned the
+//! gap "Genden and Tsurphu are not implemented" (spec 005; `DEBT.md` D-9). Spec 008
+//! implements both, so the tests that asserted `Err(SystemNotImplemented)` for them
+//! (`genden_not_yet_supported`, `tsurphu_not_yet_supported`, and
+//! `an_unimplemented_system_never_falls_back_to_phugpa`, which asserted the same
+//! gap) are removed, and the Genden and Tsurphu tests replace them
+//! (`exhaustive_versions.rs`, `p5_versions.rs`, `p7_proptest_versions.rs`,
+//! `versions_compared.rs`; the question the third test asked, that no system
+//! answers as Phugpa by accident, is `versions_compared.rs`'s c3 and c5).
+//! `Error::SystemNotImplemented` stays in the enum for a deferred system.
 
-use tshes::{Error, GregorianDate, MonthNo, System, Tshes, ZDate, ZYear, to_gregorian, to_zdate};
-
-fn sample_date() -> GregorianDate {
-    GregorianDate::new(2024, 2, 10).unwrap()
-}
-
-fn sample_zdate(system: System) -> ZDate {
-    ZDate::new(
-        system,
-        ZYear::from_year(2024).unwrap(),
-        MonthNo::new(1).unwrap(),
-        false,
-        Tshes::new(1).unwrap(),
-        false,
-        None,
-    )
-}
-
-/// `DEBT.md` D-9: Genden is not implemented yet.
-#[test]
-fn genden_not_yet_supported() {
-    assert_eq!(
-        to_zdate(sample_date(), System::Genden),
-        Err(Error::SystemNotImplemented)
-    );
-    assert_eq!(
-        to_gregorian(sample_zdate(System::Genden)),
-        Err(Error::SystemNotImplemented)
-    );
-}
-
-/// `DEBT.md` D-9: Tsurphu is not implemented yet.
-#[test]
-fn tsurphu_not_yet_supported() {
-    assert_eq!(
-        to_zdate(sample_date(), System::Tsurphu),
-        Err(Error::SystemNotImplemented)
-    );
-    assert_eq!(
-        to_gregorian(sample_zdate(System::Tsurphu)),
-        Err(Error::SystemNotImplemented)
-    );
-}
-
-#[test]
-fn an_unimplemented_system_never_falls_back_to_phugpa() {
-    // The same date and fields, asked of Phugpa, do compute; the unimplemented
-    // systems must differ from that by being errors, not by giving the Phugpa answer.
-    assert!(to_zdate(sample_date(), System::Phugpa).is_ok());
-    assert!(to_gregorian(sample_zdate(System::Phugpa)).is_ok());
-    assert!(to_zdate(sample_date(), System::Genden).is_err());
-    assert!(to_zdate(sample_date(), System::Tsurphu).is_err());
-}
+use tshes::Error;
 
 #[test]
 fn the_error_type_displays_and_is_a_core_error() {

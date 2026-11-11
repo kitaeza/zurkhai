@@ -10,9 +10,11 @@ pub enum System {
     /// The Phugpa version, the standard Tibetan calendar (Janson
     /// (arXiv:1401.6285v1) §1, p. 1; Appendix A.1, p. 38).
     Phugpa,
-    /// The Mongolian New Genden version (not implemented: `DEBT.md` D-9).
+    /// The Mongolian New Genden version (Janson (arXiv:1401.6285v1) Appendix
+    /// A.3, p. 41; the column headed "Mongolia" in Tables 6–9, pp. 50–54).
     Genden,
-    /// The Tsurphu version (not implemented: `DEBT.md` D-9).
+    /// The Tsurphu version (Janson (arXiv:1401.6285v1) Appendix A.2, p. 38); the
+    /// version of A.2, not the karana-Sun variant of Remark 22, p. 40 (`DEBT.md` D-19).
     Tsurphu,
 }
 

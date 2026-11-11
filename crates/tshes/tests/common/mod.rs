@@ -4,6 +4,8 @@
 
 use tshes::{GregorianDate, Jdn, System, ZDate, to_zdate};
 
+pub mod fixtures;
+
 /// The JD of 1900-01-01, from the Gregorian conversion (not typed twice).
 pub fn first_jdn() -> i64 {
     GregorianDate::new(1900, 1, 1)

@@ -33,8 +33,9 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Raised:** 001 §8.
 - **Question:** Which licences cover the code, and which cover golden data and rule tables?
 - **Options:** Code: `MIT OR Apache-2.0` (ruled in 002 §2). Data: (a) CC BY 4.0, so attributions travel with the data (001's proposal); (b) another licence.
-- **Status:** OPEN
-- **Ruled:** In part — code `MIT OR Apache-2.0` (002 §2). The data licence stays open; it is decided before the first data commit.
+- **Status:** RULED
+- **Ruled:** Code `MIT OR Apache-2.0` (002 §2). Data: 2026-11-10, option (a), CC BY 4.0 — the human: "1, CC BY 4.0" (spec 006 R1).
+- **Built in:** spec 006 (`golden/LICENSE.md`)
 
 ### F3 — Naming
 - **Raised:** 001 §11.
@@ -108,3 +109,11 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Options:** (a) 1.99.0 — 002 §2's literal reading. (b) 1.99.1 — rustup's current stable. (c) another version the human names.
 - **Status:** RULED
 - **Ruled:** 2026-11-10, (a) — pin 1.99.0, MSRV 1.99.0 (002 §2's reading).
+
+### F14 — The zone regime of the T4 fixture (spec 006 Fork 1)
+- **Raised:** 2026-11-10, spec 006 Fork 1 (STOP RULE (5): the generator's output differs between time zones).
+- **Question:** The library's Gregorian dates depend on the machine's time zone (`dist/index.js:344` and the local-time getters of `getDateStr`, lines 72–77): under `TZ=Pacific/Kiritimati` every date 1900–1994 is one day early. Under which regime is the T4 fixture generated, and what does "byte-identical across zones" then mean?
+- **Options:** (a) the generator sets `process.env.TZ = 'UTC'` for itself before loading the library, so its output does not depend on the caller's zone; the three-zone runs then show the generator is zone-independent, not the library; the Kiritimati defect is reported as a finding. (b) the generator refuses to run in any zone whose offset is not 0 across the range, and the fixture is defined as the output under `TZ=UTC`; Pago_Pago is shown equal as evidence only. (c) the generator cancels the library's offset by reading `new Date().getTimezoneOffset()` itself (the prompt forbids the clock). (d) another regime the human names.
+- **Status:** RULED
+- **Ruled:** 2026-11-11, (a) — the generator pins its own zone to UTC, checks it on every day, and refuses otherwise; the human: "agree" (spec 006 ADDENDUM 1, R4).
+- **Built in:** spec 006 (tools/t4-tdc.mjs)

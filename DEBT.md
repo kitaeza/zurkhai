@@ -103,3 +103,36 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Pinned by:** `crates/tshes/tests/worked_examples.rs::header_date_2007_weekday_word_disagrees_with_eq_9_1_in_the_paper`
 - **TRIGGER:** round 006 (the T5 tables), or any round that takes a weekday from Janson v1, or the day a later version of the paper enters the library.
 - **Status:** OPEN
+- **2026-11-11, spec 006 Item 8 (TRIGGER named this round):** no file the round writes takes a weekday from Janson v1. MEASURED: a case-insensitive grep for the seven weekday names, "weekday" and "day of week" over `golden/`, `crates/tshes/tests/p5_reference_tables.rs`, `p6_t4_fixture.rs`, `common/fixtures.rs` and `tools/t4-tdc.mjs` finds nothing; the T5 files hold years, Gregorian dates, names, leap-month numbers and tshes, and the T4 fixture has no weekday column (the generator does not read the library's `day` getter). The discrepancy is not explained: D-10 stays OPEN.
+
+### D-11 — `RUSTUP_TOOLCHAIN` in the caller's environment overrides `rust-toolchain.toml`, and the gate does not fail on it
+- **Filed:** 2026-11-10, spec 006 Item 0 (R3a), measured this round.
+- **Kind:** TOOLING
+- **Statement:** MEASURED: `env --chdir=<repository> RUSTUP_TOOLCHAIN=stable rustc -V` prints `rustc 1.97.1 (8bab26f4f 2026-07-14)`, while the same call without the variable prints `rustc 1.99.0 (b940084d7 2026-09-28)`: the environment variable beats the pin. `tools/gate.sh` prints each leg's toolchain but does not fail when it differs from the pin, so a gate run with the variable set passes or fails on the wrong compiler, visibly only to a reader of the toolchain lines.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that changes `tools/gate.sh`.
+- **Status:** OPEN
+
+### D-12 — `phugpa::Epoch`, `phugpa::to_zdate` and `phugpa::to_jdn` are public API beyond round 005's prompt
+- **Filed:** 2026-11-10, spec 006 Item 0 (R3b; spec 005 report, "Latitude taken", item 1).
+- **Kind:** NEGATIVE
+- **Statement:** Spec 005 made the three items public so the three-epoch comparison could run through the public API; its prompt did not ask for that surface. The crate must not be published with this surface undecided: a published item is a promise to every later version.
+- **Pinned by:** not pinned
+- **TRIGGER:** before the crate's first publish.
+- **Status:** OPEN
+
+### D-13 — `tools/t4-tdc.mjs`'s zone checks 2 and 3 have no planted control of their own
+- **Filed:** 2026-11-11, spec 006 Item 7 (controls T-a, T-b, T-c; METHOD rule 31).
+- **Kind:** COVERAGE
+- **Statement:** The generator pins its zone to UTC and then runs three checks (check 1: the resolved zone is `UTC`; check 2: `getTimezoneOffset()` is 0 now; check 3: it is 0 at 12:00 UTC on every enumerated day). Control T-a (the pin deleted, `TZ=Pacific/Kiritimati`) is refused by check 1, which comes first, so it shows that check 1 can fail and says nothing about checks 2 and 3: after check 1 has passed, only a zone named `UTC` with a non-zero offset could reach them. Round 006's GRANTS allowed `node` to run the copies T-a, T-b and T-c only, so no copy that removes check 1 and reaches check 2 or 3 was run. Checks 2 and 3 are untested instruments: they are defence in depth behind check 1, and nothing here proves they can fire.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that runs or changes `tools/t4-tdc.mjs`, or the first round whose GRANTS allow `node` to run a further control copy: it plants one copy per unproven check, with the earlier checks removed, and shows each refuses.
+- **Status:** OPEN
+
+### D-14 — 001 §8 and §11 still call the data licence open, and 001 Appendix A's Task 5 names a route the library does not have
+- **Filed:** 2026-11-11, spec 006 Item 9 (the grep of 001 and 002 for forks with no ruling, METHOD rule 59) and Item 5.
+- **Kind:** DOCS
+- **Statement:** (1) 001 §11's F2 line says the data licence "(CC BY 4.0 proposed) is open — decide before the first data commit"; the human ruled it on 2026-11-10 (`FORKS.md` F2: CC BY 4.0) and spec 006 made the first data commit under it, so the line is stale. (2) 001 Appendix A, Task 5, says to generate Lotsawa House output "for a sample of years (or use their free library directly)"; the library's Gregorian → Tibetan route takes only a date string or the clock (`dist/index.js` 739–741), and its dates depend on the zone (`FORKS.md` F14), which Task 5 does not say. 001 is an accepted spec and changes only by revision, so the round does not edit it.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next revision of 001.
+- **Status:** OPEN

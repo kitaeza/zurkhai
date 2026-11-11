@@ -178,3 +178,43 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Pinned by:** not pinned
 - **TRIGGER:** the first of: (i) a Q1 verdict spec would rule Tsurphu out; (ii) the Q1 differential report (M3) finds Tsurphu the best-matching system for any source; (iii) an admitted source names a Karma Kagyu almanac as its basis.
 - **Status:** OPEN
+
+### D-20 — Round 008's tests are weaker than its report says
+- **Filed:** 2026-11-11, spec 009 Item 0 (the human's ruling R2; the reviewer of 39318f5, RELAYED).
+- **Kind:** COVERAGE
+- **Statement:** RELAYED from the reviewer's report on 39318f5 (2026-11-11), not re-checked here (R2). (1) In `crates/tshes/tests/p5_versions.rs`, the Genden halves of `seeded_control_table9_one_wrong_date_is_reported` (lines 366–367) and `seeded_control_table7_one_wrong_leap_month_is_reported` (lines 386–387) overwrite a row without first asserting its committed value. `seeded_control_the_other_versions_table_8_is_reported_in_months_9_and_11_only` (lines 413–437) asserts no committed value. Spec 008's report (§1.2) says each seeded control asserts the committed value first. (2) `the_tables_separate_tsurphu_from_genden_by_8_printed_cells` asserts a loaded row count for Table 6 only (`p5_versions.rs:650`). Tables 7 and 9 are compared pairwise, which stops at the shorter file (623–624), and Table 8 is not counted. (3) The c3 test's built-in "swapped" control (`crates/tshes/tests/versions_compared.rs`, lines 151–159) cannot fail once the per-day assertion (line 134) has passed. The c3 test itself can fail: two planted mutations of Tsurphu's epoch turned it red. (4) `tsurphu::a_zdate_of_another_system_is_refused` and `genden::a_zdate_of_another_system_is_refused` (`crates/tshes/tests/exhaustive_versions.rs`, lines 522–550) assert no refusal: they accept a mapped-back Ok or any of three errors. (5) The `PROPTEST_CASES` environment variable replaces the case count configured in `crates/tshes/tests/p7_proptest_versions.rs` (3000, line 266) and in `p7_proptest.rs`. The reviewer measured 10 cases under `PROPTEST_CASES=10`, with every test passing. Neither `tools/gate.sh` nor `.github/` sets the variable.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that edits `crates/tshes/`.
+- **Status:** OPEN
+
+### D-21 — Round 008's citations and descriptions disagree with its code in six places
+- **Filed:** 2026-11-11, spec 009 Item 0 (the human's ruling R2; the reviewer of 39318f5, RELAYED).
+- **Kind:** DOCS
+- **Statement:** RELAYED from the reviewer's report on 39318f5 (2026-11-11), not re-checked here (R2). (1) Spec 008's report (§1.1, "The branch-to-row match") says `month_of_count` consumes β, Y₀ and β*. It reads β and Y₀ (`crates/tshes/src/phugpa.rs:463, 469`). β* is read only by `count_of_month` (`phugpa.rs:482`). (2) The changed formula of spec 008's citation row 16, `label_of_day`'s estimate (`phugpa.rs:505`), has no citation in spec 002 §4.8's form. Its comment (`phugpa.rs:498–499`) names eqs. (7.1)–(7.3), with no section, no page and no "Janson (arXiv:1401.6285v1)". The same comment stood at the base 34430fb. (3) `end_day` (`phugpa.rs:452`) now divides by the epoch's grain denominator instead of round 005's fixed one. No row of spec 008's citation table names this change. The line's own citation, eq. (8.1), p. 27 (`phugpa.rs:450`), is unchanged. (4) Spec 008's report (§12, item 6) calls `crates/tshes/tests/p7_proptest_versions.rs` a macro over a system. It is four explicitly named proptests that take a system argument, and two tests that use both systems. Each still runs on the system its name says. (5) `true_date_numerator`'s doc comment (`phugpa.rs:403–404`) says the engine never calls it beyond about t < 10^5. The reviewer measured the largest t reached through the public API: 480,510 for E806 (the same at the base), 136,890 for E1732, 131,310 for E1747. The tested bound, 3·10^9, still holds. (6) The squash commit message of spec 008 (07b5bbf) says "the only branch on the system is lib.rs epoch_of". `to_jdn` also compares a ZDate's system with the epoch's (`phugpa.rs:581`), as spec 008's report §1.1 says in its item (c).
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that edits `crates/tshes/`. The fix is in the code's comments and docs; the spec 008 report and its commit message are not edited.
+- **Status:** OPEN
+
+### D-22 — Public functions panic on inputs their documentation admits
+- **Filed:** 2026-11-11, spec 009 Item 0 (the human's ruling R3; the reviewer of 39318f5, RELAYED).
+- **Kind:** CORRECTNESS
+- **Statement:** RELAYED from the reviewer's report on 39318f5 (2026-11-11), not re-checked here (R3). The reviewer called each function under `catch_unwind`, with identical results at the base 34430fb and at 39318f5, in debug and in release. `naming.rs` and `arith.rs` did not change between them. `ZYear::from_year(i64::MIN)` and `ZYear::from_year(i64::MIN + 1)` panic (`naming.rs:155`), where the documentation promises `InvalidField` for a year before the first cycle. `arith::amod(i64::MIN, 12)`, `arith::ceil_div(i64::MIN, 1)` and `arith::ceil_div(i64::MIN, 2)` panic, where each is documented for b > 0. The reports of specs 005 and 008 score spec 002 §4.4 ("no panics on valid input") DONE; that does not hold at these inputs. No date-mapping path reaches them: the reviewer counted 0 arithmetic calls from out-of-range input.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that edits `crates/tshes/src/`, or before the crate's first publish, whichever first. Paid by a property test over the whole i64 domain of each public function named, beside the fix.
+- **Status:** OPEN
+
+### D-23 — The engine computes a2 = 1/28, Janson v1 (7.13); Henning's (7.24) gives other dates on 53 days of 1900–2100
+- **Filed:** 2026-11-11, spec 009 ADDENDUM 1 (the human's ruling R7, on F25).
+- **Kind:** COVERAGE
+- **Statement:** Janson v1 prints two values of the Moon's anomaly increment per lunar day: a2 = 1/28, eq. (7.13), p. 23, and a2 = 3781/105840, eq. (7.24), p. 25, which Henning uses (Remark 14, pp. 25–26). The engine computes (7.13) for Phugpa, Tsurphu and Genden (`FORKS.md` F25, RULED (a)); (7.24) is not implemented. Under (7.24) the three systems give other Tibetan dates on 17 (Phugpa), 13 (Tsurphu) and 23 (Genden) days of 1900-01-01..2100-12-31, each listed in spec 009's report, §1.2 (MEASURED by spec 009, with TCG 1.06 and with a script from the paper under each value). Within 2021–2026 the lists hold three days: Tsurphu 2022-06-28, Genden 2024-09-19, Phugpa 2025-11-19.
+- **Pinned by:** `remark_14_the_two_versions_of_a2_differ_on_the_days_janson_lists` and `remark_14_footnote_27_the_two_versions_differ_on_9_and_8_days` (spec 005's Example I; Phugpa only). MEASURED 2026-11-11 (spec 009 session 2): `git grep -n -E` for the two names, at HEAD under `crates/tshes`, found both, at `crates/tshes/src/phugpa.rs:991` and `:1012`, each on `Epoch::E806`.
+- **TRIGGER:** a round that compares any source with the engine on a day of spec 009's lists (the Q1 differential, M3, first). It reports the source's value on that day against the engine's and against the (7.24) value in spec 009's lists. If an admitted source matches the (7.24) value of its best-matching system on such a day, F25 is put to the human again, with a named variant of each system among its options.
+- **Status:** OPEN
+
+### D-24 — Tsurphu and Genden have no full-range oracle in the tree
+- **Filed:** 2026-11-11, spec 009 ADDENDUM 1 (the human's ruling R6, on F24).
+- **Kind:** COVERAGE
+- **Statement:** In the gate, the engine's Tsurphu and Genden are checked only against Janson v1's printed tables (P5: Tables 6–9) and against their own consistency (P1–P4, P7); Phugpa also has the T4 fixture over 1900–2100 (P6). Spec 009 compared all three systems with Henning's TCG 1.06, built from its published source (the library's `henning-tcg/tcg1309.zip`), on every day of 1900-01-01..2100-12-31, on the engine of 07b5bbf: equal on every day except the 53 days of D-23. TCG's output is not in the tree (`FORKS.md` F24, RULED (a)). The build, the program's input, the readers and the comparison are in spec 009's report, §21.
+- **Pinned by:** not pinned
+- **TRIGGER:** the first round after spec 009 that edits `crates/tshes/src/`, or the Q1 verdict spec, whichever comes first. That round runs spec 009's differential again for the three systems over 1900–2100, from §21's record, and reports the counts per system. A disagreeing day outside D-23's lists is a finding.
+- **Status:** OPEN

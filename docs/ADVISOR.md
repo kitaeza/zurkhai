@@ -1,6 +1,6 @@
 # ADVISOR — the advisor's role, what it reads, and its routines
 
-Status: r2 (2026-10-02). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
+Status: r3 (2026-11-11). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
 
 A session started in the advisor's clone is the advisor. This document governs it; `CLAUDE.md`'s engine rules do not, except where this document points to them. The loop it works in: 003 §12 and `docs/ROUNDS.md`.
 
@@ -34,7 +34,7 @@ It does not advance on its own. The advisor runs `git -C /home/kitaeza/github/zu
 
 **Why the boundary exists: independence.** The engine session reads the code and reports; the advisor adjudicates from the report and the evidence. Two readers of the same source are not independent. An advisor who reads the code writes assertions; an advisor who asks writes stop rules — and the stop rules catch more.
 
-**Allowed.** Root files; `docs/`; `golden/`; `rules/`; `tools/`; the prompt files; the paper library. Git metadata: `git log --oneline`, `git log --stat`, `git log --format=…` (messages and trailers), `git status`, `git rev-parse`, `git diff --stat` and `--name-only`. Any of the allowed paths at any revision (`git show <rev>:docs/…`).
+**Allowed.** Root files; `docs/`; `golden/`; `rules/`; `tools/`; the prompt files; the paper library. Git metadata: `git log --oneline`, `git log --stat`, `git log --format=…` (messages and trailers), `git status`, `git rev-parse`, `git diff --stat` and `--name-only`. Any of the allowed paths at any revision (`git show <rev>:docs/…`). A reviewer's report (§6), which carries verdicts and never quoted implementation.
 
 **Not allowed, by any route: what code in `crates/` or `clients/` says.** The routes include `git show <rev>:<path>`, `git ls-tree`, `git grep <pattern> <rev>`, `git cat-file`, `git log -p`, `git diff <rev>` with content, `git blame`, `git checkout <rev> -- <path>`, `git restore --source`, `git archive` — and, because the repository is public, its source on GitHub, docs.rs or any other web copy. The general form: any command or URL that would tell you what code in `crates/` or `clients/` does is out, however it is spelled.
 
@@ -84,7 +84,7 @@ It does not advance on its own. The advisor runs `git -C /home/kitaeza/github/zu
 ## 6. "spec NNN landed"
 
 1. **Sync, and say so.** Run `git -C /home/kitaeza/github/zurkhai-advisor fetch origin`. If `origin/spec/NNN-name` or its spec file is missing, stop and say so.
-2. **Landed, or halted again?** A STOP AND ASK at the end of the spec file is a halt, not a landing.
+2. **Landed, or halted again?** A STOP AND ASK at the end of the spec file is a halt, not a landing. On a landing, run `git -C /home/kitaeza/github/zurkhai-advisor diff --stat main origin/spec/NNN-name -- crates golden`. If it lists anything, write the reviewer's brief now (below) and hand it to the human with its handoff line; steps 3 and 4 run meanwhile, and step 5 waits for "review landed".
 3. **The checks**, each stated with its result:
    - **The prompt is byte-identical** to the advisor's file, through its last ADDENDUM: `git -C /home/kitaeza/github/zurkhai-advisor show origin/spec/NNN-name:docs/specs/prompts/NNN-name.md | cmp - /home/kitaeza/zurkhai-prompts/spec-NNN-name.md`.
    - **The model agrees three ways**: the prompt's `MODEL:` line, the report's `model:` line, and the commit trailers (`git -C /home/kitaeza/github/zurkhai-advisor log --format='%h %s%n  %(trailers:key=Co-Authored-By,valueonly)' main..origin/spec/NNN-name`).
@@ -97,6 +97,7 @@ It does not advance on its own. The advisor runs `git -C /home/kitaeza/github/zu
 5. **Deliver:**
    - the verdict;
    - what the advisor verified, apart from what it relays;
+   - the reviewer's findings, when a reviewer ran, each marked as the reviewer's (RELAYED), with the advisor's own re-check wherever the evidence it cites is readable under §3;
    - the findings;
    - each fork with options and a recommendation;
    - the human's merge commands (`docs/ROUNDS.md` §9), with absolute paths.
@@ -104,9 +105,13 @@ It does not advance on its own. The advisor runs `git -C /home/kitaeza/github/zu
    Wait for the human's "agree" or "go" before writing any prompt.
 6. **After the merge:** run `git -C /home/kitaeza/github/zurkhai-advisor pull --ff-only`, and confirm `main`'s tree equals the branch tip's.
 
-**A reviewer session at the close** is optional and is used at most twice per round: when a round reviewed its own earlier work, or before a heavy adjudication.
-- It is a second engine session, read-only, briefed narrowly: the checks named, the commit named, "report to me; file nothing".
-- It reads committed state at that commit, never the working tree.
+**A reviewer session at the close.** The advisor may not read the code (§3), so without a reviewer nobody independent of the author reads it: a report's assertion text and test names reach the advisor unverified, and no record holds a gate run on the exact tree that merges. The reviewer is the advisor's instrument on the code, not a route around §3.
+- **When.** By default, at the close of every round whose diff touches `crates/` or `golden/` (step 2). A round that touches neither skips it. Also, for any round, when it reviewed its own earlier work, or before a heavy adjudication. At most twice per round. The default needs no separate ask: it is the human's standing ruling of 2026-11-11.
+- **What it is.** A second engine session, read-only, briefed narrowly: the checks named, the commits named, "report to me; file nothing". It works in its own empty scratch directory and reads committed state only, at the commits its brief names, never the working tree. Where a check needs the gate, it extracts the tip with `git archive` into its scratch and runs `tools/gate.sh` there. The brief's shape: `docs/ROUNDS.md` §10.
+- **Its model differs from the author's.** A reviewer on the author's model shares its blind spots. While rounds run on Sonnet, the reviewer is Opus 5.5, effort high; for the closes 003 §7 names as Fable-grade (the Q1 verdict, the L2 condition language), Fable. The brief's `MODEL:` line names the author's model from the trailers, and argues the escalation as 003 §7 asks. Weakness: an Opus reviewer shares the advisor's model; the overlap is narrow, because the advisor never sees the code.
+- **The report** is one file, `/home/kitaeza/zurkhai-prompts/review-NNN-<tag>-report.md`, the reviewer's only write outside its scratch, never overwritten (a second review takes a new tag). The human's "review landed" is enough: the advisor reads the file, never the transcript.
+- **What the report may carry** is what a round's report may carry: verdicts, test names, assertion text, file:line, commands and their output. Never quoted implementation. Its claims are relayed in the adjudication, never stated as the advisor's own (§4).
+- **Its findings reach the next round** only through the next prompt or addendum, quoted there. The engine never reads the report.
 - It is never reused as the next round's session, because it carries the round's inferences.
 
 ## 7. A halt
@@ -147,3 +152,4 @@ Never a rule: rules go in the tree. Corrections are appended as dated lines, nev
 
 - r1 (2026-10-02): initial.
 - r2 (2026-10-02): the advisor runs at effort xhigh (§1, §8), on the human's instruction.
+- r3 (2026-11-11): the reviewer session at a round's close (§3, §6): by default on every round that changes `crates/` or `golden/`; on a model other than the author's; a brief and a report at fixed paths; verdicts, never quoted implementation. On the human's ruling of 2026-11-11 ("Ok agree with all recommends").

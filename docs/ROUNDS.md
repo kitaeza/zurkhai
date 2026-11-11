@@ -1,6 +1,6 @@
 # ROUNDS — how a round runs: the prompt, the session, the report, the merge
 
-Status: r1 (2026-10-02). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
+Status: r2 (2026-11-11). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
 
 This document is the working form of the loop in 003 §2 and §12. `docs/ADVISOR.md` covers what the advisor reads and does; `docs/METHOD.md` holds the rules cited here by number.
 
@@ -13,6 +13,8 @@ the human:                starts a FRESH engine session with the handoff line (�
 the engine session:       branch spec/NNN-name → commits the prompt unchanged → one reviewed unit
                           → the report in docs/specs/NNN-name.md → never pushes, never merges
 the human:                "spec NNN landed" → the advisor adjudicates (ADVISOR.md §6)
+the advisor + the human:  if the round touched crates/ or golden/: a read-only reviewer reads the tip
+                          first (§10) → "review landed" → the adjudication is delivered
 the human:                squash-merges, pushes main (§9)
 ```
 
@@ -104,6 +106,7 @@ Then the items. **Item 0** is always: create the branch; commit this prompt byte
 - **A halt commits.** A round that stops on a STOP AND ASK commits its work-so-far plus the STOP AND ASK (in its spec file, and as an OPEN row in `FORKS.md`) to its branch, so the advisor reads the fork from the tree, not from a paste. `main` stays clean.
 - **A resume** is a fresh session on the same branch. It reads the prompt and its addendum, `git log` and the report so far, and runs the workspace's tests once before building anything, because a round that halted before its gate left its failures unseen.
 - **Never** push, merge, rebase `main`, or delete a branch.
+- **After the final commit the branch stands still.** A reviewer may be reading its tip (§10); a later change comes only through an addendum, and its commit names the new tip.
 
 ## 4. The report
 
@@ -221,6 +224,43 @@ On the advisor's go, after "spec NNN landed" (`docs/ADVISOR.md` §6):
 
 **A stacked pair** (a round cut from an unmerged predecessor, only on the human's hold): the predecessor first by `merge --squash`; the successor second by `git read-tree -u --reset spec/<second> && git commit`, which takes its tree exactly; each tree-checked.
 
+## 10. The reviewer's brief
+
+A read-only engine session that checks a landed round's committed tip before the advisor delivers its adjudication. When it runs, on which model, and what it may report: `docs/ADVISOR.md` §6. It is not a round: no spec number, no branch, no commit, nothing filed.
+
+The advisor writes the brief to `~/zurkhai-prompts/review-NNN-<tag>.md`. The tag is `close` for the first review of a round, then `close2` and so on; a tag is never reused. The brief sits between banners, as a prompt does (§2.1), with `REVIEW BRIEF — SPEC NNN` in place of `ROUND PROMPT — SPEC NNN`. Its header, every line required:
+
+```
+RECIPIENT:    a READ-ONLY reviewer of spec NNN at commit <sha>. Not a round: it files nothing, commits
+              nothing, starts no branch, and edits nothing in either clone.
+WORKDIR:      /home/kitaeza/zurkhai-review-NNN-<tag>/ — empty, made by the human; the session's working
+              directory. The repository /home/kitaeza/github/zurkhai is added with /add-dir and is read
+              only through `git -C` at the commits below, never its working tree.
+MODEL:        <model>. EFFORT: <effort>. Reason: the round ran on <model> (the trailers of <first> …
+              <last>); a reviewer on the author's model shares its blind spots.
+COMMITS:      base <sha> (main before the round); tip <sha> (the round's final commit).
+GRANTS:       git, read-only, at the named commits only: `show`, `log`, `diff <a> <b>`, and `archive <sha>`
+              extracted into WORKDIR. No git command that reads or writes the index, the working tree or a
+              ref: no status, add, checkout, switch, stash, reset, restore, worktree, branch, tag, fetch or
+              commit, and no diff without two commits. The Read tool and read-only shell tools on WORKDIR.
+              cargo and tools/gate.sh only on an extraction inside WORKDIR. <the paper library, when a check
+              needs it>. Network: none. (METHOD rule 67)
+CHECKS:       numbered. Each names the fact to establish, its oracle (a source, a file, a run), and what
+              counts as a FINDING. A check asks; it never hands the reviewer the advisor's suspected cause as
+              a premise (§2.3).
+REPORT:       /home/kitaeza/zurkhai-prompts/review-NNN-<tag>-report.md — the only file written outside
+              WORKDIR; never overwritten. Per check: VERIFIED, FINDING, or NOT CHECKED with the reason; the
+              commands and their output; file:line. Verdicts, test names, assertion text and run output —
+              never quoted implementation (ADVISOR.md §3). The final message ends with the report's path
+              and its sha256.
+PATHS:        Every Bash call uses absolute paths and no cd. One command per call where it can be.
+```
+
+- **The handoff line**: `**<Model>, effort <level>:** Read /home/kitaeza/zurkhai-prompts/review-NNN-<tag>.md and execute it`, for a fresh session opened in its WORKDIR, with `/add-dir /home/kitaeza/github/zurkhai` (and the paper library when GRANTS name it). The human makes WORKDIR first, and says "review landed" once the report file exists.
+- **Its findings reach the engine** only through the next prompt or addendum, quoted there. The round never reads the report.
+- **It is never the next round's session.**
+
 ## Revisions
 
 - r1 (2026-10-02): initial.
+- r2 (2026-11-11): §10, the reviewer's brief; §1's loop and §3 name the reviewer (`docs/ADVISOR.md` r3, the human's ruling of 2026-11-11).

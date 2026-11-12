@@ -246,3 +246,43 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Status:** RULED
 - **Ruled:** 2026-11-12, (a). The human: "4 agree".
 - **Built in:** not yet built; the Sources round
+
+### F32 — What shows that a datsan belongs to the Buddhist Traditional Sangha of Russia
+- **Raised:** 2026-11-12, by the advisor, after spec 012; recorded by spec 013 Item 0
+- **Question:** Spec 012 reached no register and no Sangha list. What counts as proof of membership (001 §1)?
+- **Options:** (a) the publisher names the Sangha as its own body, on the calendar or its site, the line quoted in the meta file, register evidence added later; (b) only a register entry or the Sangha's own list, every holding a candidate until then; (c) (a) and a second, independent confirmation.
+- **Status:** RULED
+- **Ruled:** 2026-11-12, (a). The human: "Agree with all recommendations, go".
+- **Built in:** spec 013 (the meta files of golden/buryat/)
+
+### F33 — The admission of the Ivolginsky datsan's 2021 calendar under its site's terms
+- **Raised:** 2026-11-12, by the advisor, after spec 012; recorded by spec 013 Item 0
+- **Question:** The site allows its material for non-commercial activity only and requires written permission otherwise; golden/ is CC BY 4.0. Admit it?
+- **Options:** (a) admit, facts only, the footer quoted in `rights`; (b) ask the datsan first, no rows until it answers; (c) do not admit; (d) (a) now, and the human asks the datsan, a refusal being the TRIGGER to withdraw the rows.
+- **Status:** RULED
+- **Ruled:** 2026-11-12, (d). The human: "Agree with all recommendations, go". The DEBT.md entry is D-35.
+- **Built in:** spec 013
+
+### F34 — The admission of the Aginsky datsan's 2025 and 2026 editions, no terms found
+- **Raised:** 2026-11-12, by the advisor, after spec 012; recorded by spec 013 Item 0
+- **Question:** No terms of reuse were found on four saved site pages or in either PDF's text layer. Admit both editions?
+- **Options:** (a) admit both (T1, F30), `rights` saying no terms were found and naming what was read; (b) wait until the site's «Лунный календарь» page is saved and read.
+- **Status:** RULED
+- **Ruled:** 2026-11-12, (a). The human: "Agree with all recommendations, go".
+- **Built in:** spec 013
+
+### F35 — Golden rows from the Gunzechoinei and Khoymorsky calendars
+- **Raised:** 2026-11-12, by the advisor, after spec 012; recorded by spec 013 Item 0
+- **Question:** The library holds one to three legible months of each. Transcribe them now?
+- **Options:** (a) no, a DEBT.md entry with the TRIGGER "a full printed calendar in the library"; (b) the legible months of Gunzechoinei only; (c) the legible months of both.
+- **Status:** RULED
+- **Ruled:** 2026-11-12, (a). The human: "Agree with all recommendations, go". The DEBT.md entry is D-34.
+- **Built in:** not built; DEBT.md
+
+### F36 — What the golden month column holds for a Buryat source
+- **Raised:** 2026-11-12, by the advisor, after spec 012; recorded by spec 013 Item 0
+- **Question:** 001 §5.1 makes month a number 1 to 12; the Buryat calendars print a season label per Gregorian month, or none. What does the column hold?
+- **Options:** (a) the number the label implies in the seasonal order, by lunation, the label in notes, «Дополнительный» leap with an empty month, empty where nothing is printed; (b) empty for every Buryat source, the labels in notes only; (c) normalised to Janson v1's numbering.
+- **Status:** RULED
+- **Ruled:** 2026-11-12, (a). The human: "Agree".
+- **Built in:** spec 013

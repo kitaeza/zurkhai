@@ -1,6 +1,6 @@
 # BACKLOG — possibilities, not commitments
 
-Status: r1 (2026-11-12). Not gated; it changes by a revision entry below, in the commit that changes it.
+Status: r2 (2026-11-12). Not gated; it changes by a revision entry below, in the commit that changes it.
 
 This file keeps things the project might do. It is **a list of possibilities, not a queue**: nothing here is planned, owed or decided. The plan is `docs/ROADMAP.md`. Three records stay apart, and **one item is filed in only one of them**:
 
@@ -48,6 +48,13 @@ This file keeps things the project might do. It is **a list of possibilities, no
 - **State:** idea
 - **Evidence date:** 2026-11-11 (his 2012 list differs from Janson v1's Table 8 in months 4, 5 and 11; RELAYED, as D-19 says)
 
+### B-5 — «Онцар Шелжи Мелон», the treatise the Aginsky datsan's about page names
+- **Origin:** 2026-11-12, advisor conversation (from the saved page `aginsky-datsan/saved-2026-11-12/agin-o-daczane.html`)
+- **Would buy:** a named astrological treatise (1908, by Габжа лама Лубсан Бальжир of the Aginsky datsan) that the page says lamas of Mongolia and Russia use today for zurkhai calculation: a candidate primary statement of which arithmetic Buryat calendars compute, for the Q1 verdict.
+- **State:** idea
+- **Evidence date:** 2026-11-12
+
 ## Revisions
 
 - r1 (2026-11-12): initial, on the human's ruling R2 (spec 011); B-1 to B-4 filed from the advisor's seeds.
+- r2 (2026-11-12): B-5 filed, on the human's R10 (spec 013).

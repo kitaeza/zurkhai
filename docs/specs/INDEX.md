@@ -16,3 +16,4 @@ A convenience only. The tree is authoritative for the next free number (`ls docs
 | 010 | `010-publication.md` | Before the first public push: the CI pin, the history audit and map, the private mirror | draft |
 | 011 | `011-roadmap-backlog.md` | The roadmap, the backlog and arcs; ADVISOR r4 and ROUNDS r4 | draft |
 | 012 | `012-source-checks.md` | Source checks: who publishes each calendar in the library, and on what terms | draft |
+| 013 | `013-buryat-sources.md` | Buryat sources: the admission of three datsan calendars, and their tshes as golden rows | draft |

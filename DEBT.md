@@ -281,4 +281,52 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Statement:** MEASURED 2026-11-12, one WebFetch attempt each, no retry (METHOD rule 50): datsan-rinpoche-bagsha.ru, ivolgdatsan.ru, aginskydatsan.ru, khurul.ru, egrul.nalog.ru, nco.minjust.gov.ru, legalacts.ru, dharma.ru, gkodeksrf.ru and rulaws.ru returned `connect ECONNREFUSED`; dazanspb.ru and pravo.gov.ru returned "Command failed with no output"; lawbrary.ch returned HTTP 403. The cause is not established. Consequences: (1) Item 1's control did not run, so every WebFetch quotation in spec 012 is "wording not verified (Item 1)"; (2) no register entry and no Sangha list was obtained, so all seven membership verdicts are UNDETERMINED; (3) no provision of Item 4(b) is FETCHED from an official publication: fedlex.admin.ch served a page that needs JavaScript, and its PDFs of SR 231.1 and SR 241 came back from WebFetch as unreadable bytes, saved by the harness outside the round's grants and not read (STOP RULE (7)); (4) the Ivolginsky calendar's footer line is too small to read in the library's image; (5) the publisher of the Khoymorsky poster is unsettled: the poster says «Дэчен Равжалин» of Tunkinsky district, Wikipedia's article on the Sangha lists a Khoymorsky datsan «Бодхидхарма» (FETCHED, secondary). The link table of spec 012 lists every page to save.
 - **Pinned by:** not pinned
 - **TRIGGER:** the first of: the human saves pages from spec 012's link table into the library (each gains its `docs/sources.md` row, METHOD rule 50); the buryat-sources prompt is written (`docs/ROADMAP.md`).
+- **Status:** RETIRED 2026-11-12, superseded by D-33: the pages spec 012 could not reach were saved on 2026-11-12 (spec 013 R1), and what is still missing is D-33's
+
+### D-33 — What the 2026-11-12 saves did not reach
+- **Filed:** 2026-11-12, spec 013 Item 0 (R9; supersedes D-32)
+- **Kind:** PROVENANCE
+- **Statement:** Sangha membership rests on the publishers' own statements (R4, `FORKS.md` F32) until these are in the library: EGRUL extracts, searched by name, for the Ivolginsky datsan «Хамбын Хурээ», the Aginsky datsan «Дэчен Лхундублинг», the Gunzechoinei datsan, the Khoymorsky datsan and the Central Khurul of Elista; the Ministry of Justice's register of religious organisations; the Sangha's own site, sangharussia.ru (named in the infobox of `sangha-secondary/ruwiki-BTSR.html`; not tried); the official text of the Civil Code, part 4; the Swiss commercial register's (zefix) extract for Rabten Choeling; and the Aginsky site's «Лунный календарь» page (R6's denominator).
+- **Pinned by:** not pinned
+- **TRIGGER:** the first of: the human saves any of them into the library; the q1-verdict prompt is written.
+- **Status:** OPEN
+
+### D-34 — No golden rows from the Gunzechoinei and Khoymorsky calendars
+- **Filed:** 2026-11-12, spec 013 Item 0 (R7, `FORKS.md` F35)
+- **Kind:** COVERAGE
+- **Statement:** The library holds one to three legible months of each calendar, and the Khoymorsky poster's publisher is unsettled (D-32 (5), retired into D-33's scope). The human ruled no golden rows from either this round.
+- **Pinned by:** not pinned
+- **TRIGGER:** a full printed calendar of either is in the library.
+- **Status:** OPEN
+
+### D-35 — The Ivolginsky rows stand on the human's acceptance of R5
+- **Filed:** 2026-11-12, spec 013 Item 0 (R5, `FORKS.md` F33)
+- **Kind:** PROVENANCE
+- **Statement:** The site's footer allows the use of its material for non-commercial activity and requires the written permission of the datsan or the named author in all other cases (`ivolginsky-datsan/saved-2026-11-12/ivolg-home.html`, raw lines 450 to 451; lines 139 to 141 of spec 013's text conversion). golden/ is CC BY 4.0. The human ruled: admitted now, facts only, `rights` quoting the footer verbatim, and the human writes to the datsan for written permission. Rows already pushed stay in the public history even if withdrawn.
+- **Pinned by:** not pinned
+- **TRIGGER:** the datsan's answer, recorded by the human; on a refusal, the rows of `golden/buryat/ivolginsky-datsan-2021.csv` are withdrawn with an in-place `[CORRECTED yyyy-mm-dd: …]` record.
+- **Status:** OPEN
+
+### D-36 — The advisor's clear line disagrees with METHOD rule 9 and ADVISOR §8 r4
+- **Filed:** 2026-11-12, spec 013 Item 0 (R11)
+- **Kind:** METHOD
+- **Statement:** METHOD rule 9 ("The clear line and the starter prompt for the fresh session are ONE message") and `docs/ADVISOR.md` §8 r4's mechanical check disagree with the human's instruction of 2026-11-12 that the clear line names the starter file and its sha256 instead of reprinting the starter. Spec 013 edits neither file: process work stays off a round that writes golden/ (`docs/ADVISOR.md` §5).
+- **Pinned by:** not pinned
+- **TRIGGER:** the next Process round (it revises ADVISOR §8; METHOD changes only by an amendment spec).
+- **Status:** OPEN
+
+### D-37 — Nothing in the gate reads golden/buryat/
+- **Filed:** 2026-11-12, spec 013 Item 0
+- **Kind:** COVERAGE
+- **Statement:** MEASURED 2026-11-12: `git grep -n 'golden/buryat'` over `crates`, `tools` and `.github` prints nothing (exit 1), and `git grep -n -E 'read_dir|WalkDir|glob\('` over `crates` and `tools` prints nothing (exit 1); the tests that read golden/ name their files under `golden/reference/` (`crates/tshes/tests/common/fixtures.rs`). The format, the step check and the meta presence of golden/buryat/ were checked by spec 013's scripts, outside the tree, and nothing re-runs them. The scripts and the raw readings (both passes, route A and route B) were scratch and are not kept; the report records the scripts verbatim.
+- **Pinned by:** not pinned
+- **TRIGGER:** the q1-verdict round, or the next round that writes golden/buryat/, whichever first.
+- **Status:** OPEN
+
+### D-38 — FORKS.md F28 to F31 still say "not yet built"
+- **Filed:** 2026-11-12, spec 013 (by-catch; hard rule 1 forbids fixing it in this round)
+- **Kind:** DOCS
+- **Statement:** The `Built in:` lines of F28, F29, F30 and F31 read "not yet built; the Sources round". Spec 013 is that round: F28 (the step check of golden/buryat/), F29 (the Ivolginsky file, T1), F30 (the two Aginsky files, T1) and F31 (`is_leap_month` per the source's label) are built in it. The rows are not edited here.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that edits `FORKS.md`, or the q1-verdict prompt, whichever first.
 - **Status:** OPEN

@@ -15,3 +15,4 @@ A convenience only. The tree is authoritative for the next free number (`ls docs
 | 009 | `009-henning-differential.md` | The Henning differential: TCG 1.06 against the engine's three systems, 1900–2100 | draft |
 | 010 | `010-publication.md` | Before the first public push: the CI pin, the history audit and map, the private mirror | draft |
 | 011 | `011-roadmap-backlog.md` | The roadmap, the backlog and arcs; ADVISOR r4 and ROUNDS r4 | draft |
+| 012 | `012-source-checks.md` | Source checks: who publishes each calendar in the library, and on what terms | draft |

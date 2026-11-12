@@ -1,6 +1,6 @@
 # ROADMAP — the order of the rounds, and the state of the two gates
 
-Status: r2 (2026-11-12). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
+Status: r4 (2026-11-12). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
 
 This file is the project's plan in one place: which rounds have landed, which are planned, what each opens, and what must hold before the next one may start. `docs/specs/001-init-spec.md` §10 stays authoritative for what each milestone delivers and when it is done; this file tracks **order and state only**.
 
@@ -37,7 +37,8 @@ The weakest boundary is Engine against Validation (the advisor's caveat). A roun
 | Validation | none | henning-differential — LANDED | The Henning differential: TCG 1.06 against the engine's three systems, 1900–2100 | D-23 and D-24 | — |
 | Process | none | publication — LANDED | Before the first public push: the CI pin, the history audit and map, the private mirror | the public repository, and CI on hosted runners | — |
 | Process | none | roadmap-backlog — LANDED | The roadmap, the backlog and arcs; ADVISOR r4 and ROUNDS r4; the first client recorded as a website | an arc on every later prompt; the Sources round | publication landed |
-| Sources | M0 | buryat-sources — PLANNED | the admission of the Buryat datsan calendars in the paper library, and their tshes as golden rows (001 §10 M0) | the Q1 verdict | roadmap-backlog landed, and the human has answered the questions on admission and tier that the round's prompt needs |
+| Sources | M0 | source-checks — LANDED | for every calendar held in the library, who publishes it, whether it is a Sangha datsan, the site's terms, and what the governing law says about reusing calendar facts | buryat-sources | roadmap-backlog landed |
+| Sources | M0 | buryat-sources — PLANNED | the admission of the Buryat datsan calendars in the paper library, and their tshes as golden rows (001 §10 M0) | the Q1 verdict | source-checks landed, and the human has ruled on its findings |
 | Verdict | M3 | q1-verdict — PLANNED | the Q1 differential report, and the verdict spec or a recorded stop-and-consult (001 §10 M3) | D-1 is lifted only by the verdict spec; the TRIGGERs of D-19, D-23 and D-24 name this round | M0's done-when is met (001 §10), and genden-tsurphu landed |
 | Rules | M4 | l2-schema — PLANNED | the L2 schema, its validator and the first sourced table (001 §10 M4) | sourced rules for the first client | the human orders it; 001 §10 sets it no dependency, and it is not yet ordered |
 | Clients | M5 | website — PLANNED | the first client, a website at zurkhai.org (F27) (001 §10 M5) | Android; the second gate of 003 §4 P4 | the Q1 verdict spec exists (D-1), and l2-schema landed |
@@ -55,3 +56,5 @@ The weakest boundary is Engine against Validation (the advisor's caveat). A roun
 
 - r1 (2026-11-12): initial, on the human's rulings R1, R3, R4 and R7 (spec 011).
 - r2 (2026-11-12): Table 1, row 8 (roadmap-backlog): PLANNED → LANDED, by the round's own final commit (spec 011).
+- r3 (2026-11-12): Table 1: a new row, source-checks (PLANNED, TRIGGER "roadmap-backlog landed"), inserted before buryat-sources; buryat-sources' TRIGGER changed from "roadmap-backlog landed, and the human has answered the questions on admission and tier that the round's prompt needs" to "source-checks landed, and the human has ruled on its findings" (spec 012, on the human's ruling R1 of 2026-11-12).
+- r4 (2026-11-12): Table 1, row source-checks: PLANNED → LANDED, by the round's own final commit (spec 012). Its TRIGGER cell is left as the prompt dictated it.

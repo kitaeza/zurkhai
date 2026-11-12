@@ -257,4 +257,28 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Statement:** `docs/BACKLOG.md` B-2 says Rabten Choeling's 2026 calendar is in the paper library; the seed's text is the advisor's (RELAYED). `docs/sources.md` has no row for it: MEASURED 2026-11-12, a case-insensitive grep for `rabten` over the tracked `.md` files outside `docs/specs/prompts/` printed nothing before B-2 was written. `docs/sources.md` requires one row per source, in the same commit as obtaining it. Whether the holding exists on disk is not checked: spec 011 had no grant to read the library, and `docs/sources.md` is outside its scope.
 - **Pinned by:** not pinned
 - **TRIGGER:** the next round that edits `docs/sources.md`, or the Sources round (`docs/ROADMAP.md`, buryat-sources), whichever comes first. It confirms the holding and adds the row, or corrects B-2.
+- **Status:** PAID 2026-11-12, spec 012 Item 5(a): the holding exists (`rabten-choeling/calendarEN.pdf`, sha256 MEASURED 2026-11-12 equal to the value relayed), and its row is in `docs/sources.md`. B-2 stands.
+
+### D-30 — Round 011's four flags: three standing texts disagree with each other, and one is stale
+- **Filed:** 2026-11-12, spec 012 Item 0 (the human's ruling R7 of 2026-11-12, "Agree with all recommendations, go merge"; items (i) to (iii) are spec 011 §5.1's flags F-a to F-c; item (iv) is listed beside them by R7 and is not one of spec 011's flags F-a to F-d)
+- **Kind:** DOCS
+- **Statement:** MEASURED 2026-11-12 by `grep -n` on the files as they stand at c4af28d (none of the four files is changed by this round): (i) F-a, `CLAUDE.md:22` (hard rule 12) says the gate runs "on the final committed tree", where `docs/ROUNDS.md:108` (§3, r4) runs it on the last commit that changes more than the round's spec file, its `docs/specs/INDEX.md` row and its `docs/ROADMAP.md` row; (ii) F-b, `docs/ROUNDS.md:129`, §4.1's `gate:` line, has no place for the commit the gate ran on, which §3 (line 108) requires it to name; (iii) F-c, `CLAUDE.md:48` ("Files a round keeps current") says a promoted backlog entry is updated "in the same commit" without saying as what; (iv) `docs/ROUNDS.md:222`, §9's opening, still says "After the advisor's go", left over from r3, where r4 makes the human's word the trigger. Nothing here is a change this round may make (`CLAUDE.md` and `docs/ROUNDS.md` are out of scope, spec 012 STOP RULE (6)).
+- **Pinned by:** not pinned
+- **TRIGGER:** the next Process round.
+- **Status:** OPEN
+
+### D-31 — 001 §6.3's admission clause needs the reading the human ruled
+- **Filed:** 2026-11-12, spec 012 Item 0 (FORKS.md F28, RULED 2026-11-12)
+- **Kind:** DOCS
+- **Statement:** `docs/specs/001-init-spec.md:126` says "A source is admitted only if it states it is zurkhai / Tibetan calendar and its numbers behave like tshes". The human ruled (F28, (a), "1 agree") that the first half is met by a Sangha datsan's own Buddhist lunar calendar whose numbers behave like tshes, which the Sources round shows by a step check, because none of the held datsan calendars names itself zurkhai or the Tibetan calendar (each says «Лунный календарь»). 001 is gated (`GATED.md`), so this round does not edit §6.3; the clause is to be clarified at 001's next revision.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next spec that revises 001.
+- **Status:** OPEN
+
+### D-32 — Spec 012 could not reach the registers, the Sangha's own list or the live sites: no membership verdict and no statute text is firm
+- **Filed:** 2026-11-12, spec 012 (by-catch of Items 1 to 4)
+- **Kind:** PROVENANCE
+- **Statement:** MEASURED 2026-11-12, one WebFetch attempt each, no retry (METHOD rule 50): datsan-rinpoche-bagsha.ru, ivolgdatsan.ru, aginskydatsan.ru, khurul.ru, egrul.nalog.ru, nco.minjust.gov.ru, legalacts.ru, dharma.ru, gkodeksrf.ru and rulaws.ru returned `connect ECONNREFUSED`; dazanspb.ru and pravo.gov.ru returned "Command failed with no output"; lawbrary.ch returned HTTP 403. The cause is not established. Consequences: (1) Item 1's control did not run, so every WebFetch quotation in spec 012 is "wording not verified (Item 1)"; (2) no register entry and no Sangha list was obtained, so all seven membership verdicts are UNDETERMINED; (3) no provision of Item 4(b) is FETCHED from an official publication: fedlex.admin.ch served a page that needs JavaScript, and its PDFs of SR 231.1 and SR 241 came back from WebFetch as unreadable bytes, saved by the harness outside the round's grants and not read (STOP RULE (7)); (4) the Ivolginsky calendar's footer line is too small to read in the library's image; (5) the publisher of the Khoymorsky poster is unsettled: the poster says «Дэчен Равжалин» of Tunkinsky district, Wikipedia's article on the Sangha lists a Khoymorsky datsan «Бодхидхарма» (FETCHED, secondary). The link table of spec 012 lists every page to save.
+- **Pinned by:** not pinned
+- **TRIGGER:** the first of: the human saves pages from spec 012's link table into the library (each gains its `docs/sources.md` row, METHOD rule 50); the buryat-sources prompt is written (`docs/ROADMAP.md`).
 - **Status:** OPEN

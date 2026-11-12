@@ -214,3 +214,35 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Status:** RULED
 - **Ruled:** 2026-10-02, (a), a website. The human registered the domain zurkhai.org for it the same day. The human's words were not recorded.
 - **Built in:** not yet built; docs/ROADMAP.md's website row (spec 011)
+
+### F28 — The reading of 001 §6.3's admission clause for a datsan's lunar calendar
+- **Raised:** 2026-11-12, by the advisor, before the Sources round; recorded by spec 012 Item 0
+- **Question:** None of the held datsan calendars names itself zurkhai or the Tibetan calendar; each says «Лунный календарь». Does 001 §6.3's "states it is zurkhai / Tibetan calendar" admit them?
+- **Options:** (a) yes, for a Sangha datsan's own Buddhist lunar calendar whose numbers behave like tshes, shown by a step check, with a DEBT.md entry to clarify §6.3; (b) no, only a source that names зурхай or the Tibetan calendar; (c) case by case, in each source's meta file.
+- **Status:** RULED
+- **Ruled:** 2026-11-12, (a). The human: "1 agree". The DEBT.md entry is D-31.
+- **Built in:** not yet built; the Sources round (docs/ROADMAP.md, buryat-sources)
+
+### F29 — The tier of the Ivolginsky datsan's 2021 calendar
+- **Raised:** 2026-11-12, by the advisor, before the Sources round; recorded by spec 012 Item 0
+- **Question:** The calendar is the datsan's own print file, on its website. T1 or T2 (001 §6.1)?
+- **Options:** (a) T1, an official calendar of a Sangha datsan, with edition and compiler; its meta file says it is the digital original, not a scan; (b) T2, the datsan's own web publication.
+- **Status:** RULED
+- **Ruled:** 2026-11-12, (a), T1. Admission still waits on the terms check of 001 §8 (spec 012). The human: "2 agree".
+- **Built in:** not yet built; the Sources round
+
+### F30 — The tier, and the editions, of the Aginsky datsan's calendars
+- **Raised:** 2026-11-12, by the advisor, before the Sources round; recorded by spec 012 Item 0
+- **Question:** The 2025 and 2026 editions disagree on 9–16 January 2026. What tier, and how are the editions recorded?
+- **Options:** (a) both T1, one golden file per edition, the disagreement recorded in both and neither corrected; (b) the 2025 edition only; (c) both, with the disagreeing days left out.
+- **Status:** RULED
+- **Ruled:** 2026-11-12, (a). Admission still waits on the terms check of 001 §8 (spec 012). The human: "3 agree".
+- **Built in:** not yet built; the Sources round
+
+### F31 — What the golden is_leap_month column records
+- **Raised:** 2026-11-12, by the advisor, before the Sources round; recorded by spec 012 Item 0
+- **Question:** A source may name the extra month by a different convention from Janson v1's. Does the column record the source's label, or a normalised one?
+- **Options:** (a) what the source prints, its convention stated in the meta file, the cell empty with a note where nothing is printed, and the Q1 round mapping conventions; (b) normalised to Janson v1's convention at transcription; (c) empty for every Buryat source.
+- **Status:** RULED
+- **Ruled:** 2026-11-12, (a). The human: "4 agree".
+- **Built in:** not yet built; the Sources round

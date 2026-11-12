@@ -218,3 +218,43 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Pinned by:** not pinned
 - **TRIGGER:** the first round after spec 009 that edits `crates/tshes/src/`, or the Q1 verdict spec, whichever comes first. That round runs spec 009's differential again for the three systems over 1900–2100, from §21's record, and reports the counts per system. A disagreeing day outside D-23's lists is a finding.
 - **Status:** OPEN
+
+### D-25 — actions/checkout v4 runs on a deprecated Node.js 20
+- **Filed:** 2026-11-12, spec 011 Item 5(a) (the first hosted CI run on main).
+- **Kind:** TOOLING
+- **Statement:** The first hosted CI run on main (run 43107437324, 2026-11-12) carries, in both jobs, this annotation (FETCHED 2026-11-12, `gh run view 43107437324 -R kitaeza/zurkhai`): "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262." v4 targets Node.js 20; spec 010 pinned v4.4.0 (D-8, PAID) and found v5, v6 and v7 published (spec 010's by-catch, read in the tree this round, not re-fetched from GitHub). The run carries a second annotation in both jobs (FETCHED, same command): "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026." The gate pins its Rust toolchain (`rust-toolchain.toml`), so a new runner image does not change the compiler it runs; which image this run used is not in the fetched output. Both jobs passed (gate 19m54s, latest stable 40s).
+- **Pinned by:** not pinned
+- **TRIGGER:** the first of: GitHub announces a date on which Node.js 20 is removed from its hosted runners; a CI run fails, or warns that it will fail, because of it; the next round that edits `.github/workflows/`.
+- **Status:** OPEN
+
+### D-26 — METHOD rule 51 does not say what a round crossing midnight, or resumed on a later day, writes
+- **Filed:** 2026-11-12, spec 011 Item 5(b).
+- **Kind:** METHOD
+- **Statement:** Rule 51 says to run `date` once, at the top. Round 006's first session dated its records 2026-11-10 and committed them on 2026-11-11 (RELAYED, the advisor). The prompts of specs 008, 009, 010 and 011 carry an interim clause in Item 0 (MEASURED 2026-11-12 by `grep` over `docs/specs/prompts/`; spec 011's prompt said "since spec 010"): "Run `date` once and use that value for every date you write (METHOD rule 51). If a later `date` shows a new day, the records written after it carry the new date, and the report says where." Rule 51 itself still says nothing about it. METHOD is gated: it changes only by an amendment spec.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next amendment spec to `docs/METHOD.md`.
+- **Status:** OPEN
+
+### D-27 — The INDEX status of a merged round is never changed
+- **Filed:** 2026-11-12, spec 011 Item 5(c).
+- **Kind:** DOCS
+- **Statement:** Every round row in `docs/specs/INDEX.md` says `draft` after its merge: MEASURED 2026-11-12, `grep -c '| draft |'` prints 7, for the rows 004 to 010, all merged on main. No step of `docs/ROUNDS.md` §9 changes the status, and nothing defines what status a merged, report-shaped round's file has (`docs/specs/TEMPLATE.md` offers draft | accepted | superseded by NNN). `docs/ROADMAP.md`'s LANDED now records a round's state. The `INDEX.md` rows other than a round's own are gated, so a round cannot change them.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next spec that revises 003 or `docs/specs/TEMPLATE.md`, or the first record that reads an INDEX status as a round's state.
+- **Status:** OPEN
+
+### D-28 — Gated texts lag the rulings of 2026-11-12
+- **Filed:** 2026-11-12, spec 011 Item 5(d).
+- **Kind:** DOCS
+- **Statement:** (i) 003 §11's list of repository files names neither `docs/ROADMAP.md` nor `docs/BACKLOG.md` (MEASURED: neither name occurs in 003). (ii) `docs/specs/TEMPLATE.md`'s head block (lines 3 to 11) has no `arc:` line, which `docs/ROUNDS.md` §4.1 (r4) now puts after `prompt:`. (iii) 003 says the human merges and pushes, where under the human's ruling of 2026-11-12 (spec 011, R5) the decision is the human's and the commands the advisor's: line 23 ("human merges and pushes"), line 30 ("The human squash-merges it") and line 174 ("the human merges"); MEASURED 2026-11-12 by the Item 4(h) grep, which confirms the advisor's lines 23, 30 and 174. Line 163 (the engine session never pushes or merges) does not contradict that ruling and is not part of this entry. 003 is the only gated file with a hit of that grep. (iv) INFERRED, not a hit of that grep: 003 §12, line 162, says of the advisor "It never writes to the repository", which may read as excluding the squash commit that the ruling has the advisor make. Each of these is gated, so spec 011 changes none of it.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next accepted spec that revises 003 or `docs/specs/TEMPLATE.md`.
+- **Status:** OPEN
+
+### D-29 — The Rabten Choeling calendar has no row in docs/sources.md
+- **Filed:** 2026-11-12, spec 011 (by-catch of Item 2, the greps for seed 2).
+- **Kind:** DOCS
+- **Statement:** `docs/BACKLOG.md` B-2 says Rabten Choeling's 2026 calendar is in the paper library; the seed's text is the advisor's (RELAYED). `docs/sources.md` has no row for it: MEASURED 2026-11-12, a case-insensitive grep for `rabten` over the tracked `.md` files outside `docs/specs/prompts/` printed nothing before B-2 was written. `docs/sources.md` requires one row per source, in the same commit as obtaining it. Whether the holding exists on disk is not checked: spec 011 had no grant to read the library, and `docs/sources.md` is outside its scope.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that edits `docs/sources.md`, or the Sources round (`docs/ROADMAP.md`, buryat-sources), whichever comes first. It confirms the holding and adds the row, or corrects B-2.
+- **Status:** OPEN

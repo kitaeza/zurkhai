@@ -206,3 +206,11 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Status:** RULED
 - **Ruled:** 2026-11-11, (b), the initial commit included. The human: "keep mail address private"; "yes force-push".
 - **Built in:** the rewrite, by the human, before spec 010; the map, spec 010 (Item 3).
+
+### F27 — The first client
+- **Raised:** 2026-10-02, by the advisor: 001 §10's M5 reads "web or TG Mini App"; recorded by spec 011 Item 0
+- **Question:** Which client does M5 build first?
+- **Options:** (a) a website; (b) a Telegram Mini App.
+- **Status:** RULED
+- **Ruled:** 2026-10-02, (a), a website. The human registered the domain zurkhai.org for it the same day. The human's words were not recorded.
+- **Built in:** not yet built; docs/ROADMAP.md's website row (spec 011)

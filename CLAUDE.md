@@ -9,7 +9,7 @@ An open-source **Buryat** zurkhai calendar (tradition: Buryat; computation syste
 
 ## Hard rules
 1. **One reviewed unit per session.** If you find a second problem, file it in `DEBT.md` or report it as a flag. Do not fix it.
-2. **Do not push. Do not merge.** Work on your round's branch, `spec/NNN-short-name`, cut from `main`. Its first commit is your prompt, byte-identical, in `docs/specs/prompts/NNN-short-name.md`; `cmp` it against the prompt file before every later commit. The human merges.
+2. **Do not push. Do not merge.** Work on your round's branch, `spec/NNN-short-name`, cut from `main`. Its first commit is your prompt, byte-identical, in `docs/specs/prompts/NNN-short-name.md`; `cmp` it against the prompt file before every later commit. The merge is the human's decision (`docs/ROUNDS.md` §9).
 3. **Gated paths** (`GATED.md`) change only under an accepted spec named in your prompt.
 4. **Stop at forks.** If the spec does not decide something and the choice is not local and cheap to undo, stop and write it out as a STOP AND ASK (`docs/ROUNDS.md` §5) — never through an interactive option widget. File its row in `FORKS.md` and commit the work-so-far with it. A forced answer is not a fork: if a rule, a spec or a ruling already decides it, say so and move on.
 5. **Stop on missing inputs.** If an ARTIFACT named in the prompt is absent, stop and report. Never reconstruct a source, a table or a figure from memory.
@@ -45,4 +45,4 @@ The report lives in the round's own `docs/specs/NNN-short-name.md`, opens with t
 Null results are reported, not dropped. Every session's report is complete, a resumed session's included.
 
 ## Files a round keeps current
-`DEBT.md` and `FORKS.md` (filed in the same commit that raises an item); `docs/specs/INDEX.md` (your own row, in your final commit); `docs/sources.md` (a row for every source you obtain, in the same commit).
+`DEBT.md` and `FORKS.md` (filed in the same commit that raises an item); `docs/specs/INDEX.md` (your own row, in your final commit); `docs/ROADMAP.md` (your own row set to LANDED, in your final commit); `docs/BACKLOG.md` (an entry the prompt tells you to promote, in the same commit); `docs/sources.md` (a row for every source you obtain, in the same commit).

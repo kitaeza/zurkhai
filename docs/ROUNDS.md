@@ -1,6 +1,6 @@
 # ROUNDS — how a round runs: the prompt, the session, the report, the merge
 
-Status: r3 (2026-11-12). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
+Status: r4 (2026-11-12). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
 
 This document is the working form of the loop in 003 §2 and §12. `docs/ADVISOR.md` covers what the advisor reads and does; `docs/METHOD.md` holds the rules cited here by number.
 
@@ -15,11 +15,12 @@ the engine session:       branch spec/NNN-name → commits the prompt unchanged 
 the human:                "spec NNN landed" → the advisor adjudicates (ADVISOR.md §6)
 the advisor + the human:  if the round touched crates/ or golden/: a read-only reviewer reads the tip
                           first (§10) → "review landed" → the adjudication is delivered
-the human:                squash-merges, pushes main (§9)
+the human:                gives the word for each merge and push (§9)
+the advisor:              runs the merge and the pushes, each on that word (§9)
 ```
 
-- **The human** owns direction, every fork, every ruling, every merge and every push.
-- **The advisor** (an Opus session in the read-only clone, `docs/ADVISOR.md`) drafts forks, rulings and prompts and adjudicates reports. It never writes to the repository.
+- **The human** owns direction, every fork, every ruling, and the decision on every merge and every push: the human gives the word for each, and the advisor runs the commands (§9).
+- **The advisor** (an Opus session in the read-only clone, `docs/ADVISOR.md`) drafts forks, rulings and prompts and adjudicates reports. It writes no file content to either clone; it runs the merge and push commands only on the human's word (`docs/ADVISOR.md` §1).
 - **The engine session** (Sonnet by default, 003 §7) reads the tree and the code, does one reviewed unit, and reports. It decides implementation shape inside its scope; it asks about anything that changes what the project means (§6).
 
 ## 2. The prompt file
@@ -56,11 +57,12 @@ Every line is required unless marked conditional. `PATHS:` and `ASKING:` are rem
 RECIPIENT:    zurkhai-engine
 WORKDIR:      /home/kitaeza/github/zurkhai
 SPEC NUMBER:  NNN — ASSIGNED by the advisor. Verify it is free in the tree (ls docs/specs/*.md); STOP if not.
+ARC:          <one of the eight arcs of docs/ROADMAP.md>, assigned by the advisor with the spec number; the human may overrule it.
 BRANCH:       spec/NNN-short-name, cut from main at <sha> before any edit; commit to it, the halt included.
               No merge. No push.
 MODEL:        <model>. EFFORT: <effort>. Reason: <the 003 §7 branch, derived — ADVISOR.md §5>.
               FALLBACK: <what a session on a different model does — §8>.
-PRECONDITION: main at <sha>, carrying spec <MMM>. If main lacks it, STOP and report: the human merges.
+PRECONDITION: main at <sha>, carrying spec <MMM>. If main lacks it, STOP and report: the merge is §9's.
               Read first, in this order: <tree paths>.
 ARTIFACT:     <every input file or URL>. If absent, STOP and report — do not reconstruct, infer,
               or proceed on reported figures.
@@ -79,6 +81,8 @@ Spec NNN — <the spec's name>
 
 <One paragraph, three to five sentences: what the round is, why now, and what it does NOT do.>
 ```
+
+On this machine `grep` is ugrep: a bounded repetition of 100 or more, such as `.\{0,120\}`, fails with "exceeds complexity limits"; keep bounds below 100.
 
 Then the items. **Item 0** is always: create the branch; commit this prompt byte-identical to `docs/specs/prompts/NNN-short-name.md` as the first commit, and `cmp` it against `~/zurkhai-prompts/spec-NNN-short-name.md` before every later commit; verify the spec number; read the "Read first" list. The prompt ends with the round's predictions (METHOD rule 3, written before any measurement) and THE REPORT (what the report leads with).
 
@@ -101,8 +105,8 @@ Then the items. **Item 0** is always: create the branch; commit this prompt byte
 - **Fresh session per round.** A new spec, a change of model, or a resume after a halt: always a fresh session. An addendum to a round still running is pasted into that running session.
 - **One reviewed unit** (`CLAUDE.md` hard rule 1). A second problem is filed in `DEBT.md`, or reported as a flag; not fixed.
 - **Commits**: on the round's branch only, as many as the round needs. Every commit is preceded by: the prompt `cmp`; `git status --porcelain` compared with the files the round meant to change; the marker grep (METHOD rule 58); the open-forks audit arithmetic (METHOD rule 60); for a commit touching `crates/`, `cargo fmt --check` and `cargo clippy` for what it touches. Edits, their assertions, the greps and `git commit` run as one `&&`-chain with no `;`.
-- **The gate** (METHOD rule 65) runs LAST, on the final committed tree, with no edits in flight — also on a halt, if any tracked source changed. Always: 002 §7. Only when reached: the WASM smoke test, the Q1 report, the rules validator. Every skipped leg is named.
-- **The final commit** adds the round's row to `docs/specs/INDEX.md` (METHOD rule 8).
+- **The gate** (METHOD rule 65) runs LAST, on the committed tree, with no edits in flight — also on a halt, if any tracked source changed. It runs on **the last commit that changes any path other than the round's own spec file, its `docs/specs/INDEX.md` row and its `docs/ROADMAP.md` row**. The final commit changes only those three, which no gate leg reads (spec 011 checked `tools/gate.sh` and the files its legs read: they read `crates/`, `Cargo.toml`, `deny.toml`, `rust-toolchain.toml` and `golden/`, and nothing under `docs/`). The report's gate line names the commit the gate ran on, and `git diff --name-only <that commit> <the tip>` shows that the tip differs from it in those three paths only. The reason: a report cannot hold a gate run on the commit that holds the report. Always: 002 §7. Only when reached: the WASM smoke test, the Q1 report, the rules validator. Every skipped leg is named.
+- **The final commit** adds the round's row to `docs/specs/INDEX.md` (METHOD rule 8) and sets the round's row in `docs/ROADMAP.md` to LANDED; a halt does not.
 - **A halt commits.** A round that stops on a STOP AND ASK commits its work-so-far plus the STOP AND ASK (in its spec file, and as an OPEN row in `FORKS.md`) to its branch, so the advisor reads the fork from the tree, not from a paste. `main` stays clean.
 - **A resume** is a fresh session on the same branch. It reads the prompt and its addendum, `git log` and the report so far, and runs the workspace's tests once before building anything, because a round that halted before its gate left its failures unseen.
 - **Never** push, merge, rebase `main`, or delete a branch.
@@ -117,6 +121,7 @@ Every round has its own number and its own file, `docs/specs/NNN-short-name.md`:
 ```
 spec: NNN
 prompt: docs/specs/prompts/NNN-short-name.md
+arc: <one of the eight arcs of docs/ROADMAP.md>
 branch: spec/NNN-short-name (cut from main at <sha>) | NONE + what happened instead
 merge SHA: <sha> | not yet merged
 pushed: yes | no
@@ -212,14 +217,14 @@ A sharper reading of the same question: **is a wrong answer LOUD or SILENT?** Lo
 
 **Fallback clause** (in the header, when a round might be resumed on another model): commit at every step boundary; a continuing session reads `git status`, the log and the report first; it never commits a previous session's uncommitted work unverified — it finishes and proves it by the step's oracle, or redoes it; a design choice that would fall to the fallback model is a STOP AND ASK; the report names the switch point.
 
-## 9. The merge (the human's)
+## 9. The merge and the pushes (the human's word, the advisor's commands)
 
-On the advisor's go, after "spec NNN landed" (`docs/ADVISOR.md` §6):
+The human gives the word for each set of commands below, and the advisor runs them (`docs/ADVISOR.md` §1): the word is per set, the commands are shown first, and a force-push to the public origin is asked a second time, separately, right before it runs. After the advisor's go, on "spec NNN landed" (`docs/ADVISOR.md` §6):
 
 1. Extract the squash message from the round's spec into a file first, and read it: `git -C /home/kitaeza/github/zurkhai show "spec/NNN-name:docs/specs/NNN-name.md" | awk '/^## The squash commit message/{f=1;next} f&&/^```/{if(g)exit; g=1; next} g' > <scratch>/NNN-squash.txt`. Its tail is the `Co-Authored-By` trailers; if one is missing, add it with `git commit --trailer`.
 2. `git -C /home/kitaeza/github/zurkhai checkout main && git -C /home/kitaeza/github/zurkhai merge --squash spec/NNN-name && git -C /home/kitaeza/github/zurkhai commit -F <scratch>/NNN-squash.txt`
 3. **The tree check:** `git -C /home/kitaeza/github/zurkhai rev-parse 'main^{tree}' 'spec/NNN-name^{tree}'` — the two hashes are equal, or the squash lost something.
-4. **Push `main` to the public origin after every merge** (the human's ruling of 2026-11-11, R2 of spec 010). First the check: `git -C /home/kitaeza/github/zurkhai log --format='%ae%n%ce' origin/main..main | sort -u` must print only `8291740+kitaeza@users.noreply.github.com`, the human's GitHub no-reply address. If it prints anything else, the human does not push and asks the advisor. Then `git -C /home/kitaeza/github/zurkhai push origin main`. The first push is the exception to both halves: the public origin still holds the old initial commit, which the rewrite replaced (F26, below), so the range is all of `main`, and the check also prints `noreply@github.com`, the committer of the initial commit (it was made in GitHub's web interface); that one extra line is expected, and the push replaces origin's commit by a force-push, as the human ruled.
+4. **Push `main` to the public origin after every merge** (the human's ruling of 2026-11-11, R2 of spec 010). First the check: `git -C /home/kitaeza/github/zurkhai log --format='%ae%n%ce' origin/main..main | sort -u` must print only `8291740+kitaeza@users.noreply.github.com`, the human's GitHub no-reply address. If it prints anything else, the advisor does not push and asks the human. Then `git -C /home/kitaeza/github/zurkhai push origin main`. The first push is the exception to both halves: the public origin still holds the old initial commit, which the rewrite replaced (F26, below), so the range is all of `main`, and the check also prints `noreply@github.com`, the committer of the initial commit (it was made in GitHub's web interface); that one extra line is expected, and the push replaces origin's commit by a force-push, as the human ruled.
 5. **The branch goes to the private mirror, then is deleted** (F11 (c), RULED 2026-11-11). After step 3's tree check, run `git -C /home/kitaeza/github/zurkhai push rounds main spec/NNN-name`. Then check that `git -C /home/kitaeza/github/zurkhai ls-remote rounds refs/heads/spec/NNN-name` prints the commit that `git -C /home/kitaeza/github/zurkhai rev-parse spec/NNN-name` prints. Then run `git -C /home/kitaeza/github/zurkhai branch -D spec/NNN-name`. `-D` and not `-d`, because `git branch -d` always refuses after a squash (the tip is not an ancestor of `main`); the check that matters is step 3's, and the mirror's tip is step 5's. A round branch is never pushed to the public origin. The mirror is the git remote `rounds`, named here by its remote only.
 
 `main`'s history was rewritten once, before the first public push (F26): every commit's email address became the human's GitHub no-reply address. A commit id that the tree cites from before then is translated by `docs/specs/010-publication.md`, "The history map".
@@ -267,3 +272,4 @@ PATHS:        Every Bash call uses absolute paths and no cd. One command per cal
 - r1 (2026-10-02): initial.
 - r2 (2026-11-11): §10, the reviewer's brief; §1's loop and §3 name the reviewer (`docs/ADVISOR.md` r3, the human's ruling of 2026-11-11).
 - r3 (2026-11-12): §9 steps 4 and 5, and the history note; on the human's rulings of 2026-11-11 (F11 (c), the new row F26, and R2).
+- r4 (2026-11-12): §1, §2.2, §3, §4.1 and §9; on the human's rulings R4 and R5 (spec 011), and the gate-on-the-tip practice.

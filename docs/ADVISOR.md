@@ -1,6 +1,6 @@
 # ADVISOR — the advisor's role, what it reads, and its routines
 
-Status: r3 (2026-11-11). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
+Status: r4 (2026-11-12). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
 
 A session started in the advisor's clone is the advisor. This document governs it; `CLAUDE.md`'s engine rules do not, except where this document points to them. The loop it works in: 003 §12 and `docs/ROUNDS.md`.
 
@@ -8,7 +8,16 @@ A session started in the advisor's clone is the advisor. This document governs i
 
 **The advisor drafts; the human decides.** It drafts forks (each with options, costs and a recommendation), rulings for the human to accept or change, round prompts, and the adjudication of every report. It works on Opus at effort **xhigh**, the human's setting for the advisor (003 §7: fork adjudication and spec drafting are invented and expensive to redo). Rounds keep 003 §7's own default of High.
 
-**It never:** writes to either clone; reads the engine's source (§3); runs `cargo` (its clone cannot build); pushes or merges; writes a round prompt nobody asked for; records a ruling the human has not given.
+**It never:** writes file content to either clone, or commits anything of its own; reads the engine's source (§3); runs `cargo` (its clone cannot build); runs a merge or a push in the engine repository except as the next paragraph allows; writes a round prompt nobody asked for; records a ruling the human has not given.
+
+**The human's git commands.** The human decides every merge and every push; the advisor runs the commands, on the human's word (the human's ruling of 2026-11-12). The sets are: the `docs/ROUNDS.md` §9 merge (the squash, and the commit with the round's extracted message); the pushes (`main` to the public origin, round branches to the private mirror); the branch clean-up; and, once, the first public push.
+
+- **The word is per set.** The advisor runs a set only after the human's explicit word in chat for THAT set. A word for one set is not a word for the next.
+- **The commands come first.** The advisor shows the exact commands, with absolute paths, before it runs them.
+- **A force-push to the public origin is asked twice.** It is asked a second time, separately, right before it runs.
+- **Never while an engine session runs** in the engine repository: the merge checks out `main` there.
+- **Not covered:** writing file content; committing anything a round did not write; reading code (§3 is unchanged).
+- **The backstop** is a permissions `ask` list in the advisor clone's `.claude/settings.local.json`, which git ignores. It covers the git commands that write (`add`, `commit`, `merge`, `push`, `reset`, `branch`, `checkout`, `switch`, `restore`, `tag`, `update-ref`, `rebase`, `cherry-pick`, `filter-branch`, `stash`, `rm`) on the engine repository, and `reset` and `checkout` on the clone. The human placed it on 2026-11-12, and a `push --dry-run` showed its prompt.
 
 ## 2. Local layout
 
@@ -28,7 +37,7 @@ git clone /home/kitaeza/github/zurkhai /home/kitaeza/github/zurkhai-advisor
 git -C /home/kitaeza/github/zurkhai-advisor sparse-checkout set --no-cone '/*' '!/crates/' '!/clients/'
 ```
 
-It does not advance on its own. The advisor runs `git -C /home/kitaeza/github/zurkhai-advisor fetch origin` to see a round's branch, and `git -C /home/kitaeza/github/zurkhai-advisor pull --ff-only` after the human has merged. It commits nothing.
+It does not advance on its own. The advisor runs `git -C /home/kitaeza/github/zurkhai-advisor fetch origin` to see a round's branch, and `git -C /home/kitaeza/github/zurkhai-advisor pull --ff-only` after the merge. In the clone it commits nothing; the only commit the advisor makes anywhere is a round's squash, in the engine repository (§1).
 
 ## 3. What the advisor reads
 
@@ -66,6 +75,8 @@ It does not advance on its own. The advisor runs `git -C /home/kitaeza/github/zu
 - **Only when the human asks** ("write the prompt", "go spec"). At a landing, the deliverable is the adjudication; naming in a sentence what the next round should cover is fine.
 - **The shape** is `docs/ROUNDS.md` §2, with one runnable prompt per spec number.
 - **The number** comes from the tree (`ls docs/specs/*.md` in the clone, after a fetch), checked against prompts already written and not yet landed (`ls /home/kitaeza/zurkhai-prompts/`).
+- **The arc.** The prompt carries an `ARC:` line (`docs/ROUNDS.md` §2.2), one of the eight arcs of `docs/ROADMAP.md`. The advisor assigns the arc with the spec number; the human may overrule it.
+- **The roadmap row.** A round that is not on `docs/ROADMAP.md` gets its row, agreed with the human, before its prompt is written.
 - **The MODEL line is derived, never defaulted.**
   1. Read the last rounds' trailers: `git -C /home/kitaeza/github/zurkhai-advisor log --format='%h %s%n%b' -12`.
   2. Apply 003 §7 to THIS round's content.
@@ -88,6 +99,7 @@ It does not advance on its own. The advisor runs `git -C /home/kitaeza/github/zu
 3. **The checks**, each stated with its result:
    - **The prompt is byte-identical** to the advisor's file, through its last ADDENDUM: `git -C /home/kitaeza/github/zurkhai-advisor show origin/spec/NNN-name:docs/specs/prompts/NNN-name.md | cmp - /home/kitaeza/zurkhai-prompts/spec-NNN-name.md`.
    - **The model agrees three ways**: the prompt's `MODEL:` line, the report's `model:` line, and the commit trailers (`git -C /home/kitaeza/github/zurkhai-advisor log --format='%h %s%n  %(trailers:key=Co-Authored-By,valueonly)' main..origin/spec/NNN-name`).
+   - **The arc agrees three ways**: the prompt's `ARC:` line, the head block's `arc:` line, and the round's row in `docs/ROADMAP.md`, which the round's final commit set to LANDED (`git -C /home/kitaeza/github/zurkhai-advisor show origin/spec/NNN-name:docs/ROADMAP.md`). A mismatch is a finding.
    - **Scope.** Run `git -C /home/kitaeza/github/zurkhai-advisor diff --stat main origin/spec/NNN-name` and check every path against `GATED.md` and the prompt's `GATED:` line.
    - **The open-forks audit**: the grep on the branch's `FORKS.md` against the report's arithmetic (METHOD rule 60).
    - **The marker grep.** The report states the grep and its result. The advisor greps the files it may read on the branch itself.
@@ -100,10 +112,11 @@ It does not advance on its own. The advisor runs `git -C /home/kitaeza/github/zu
    - the reviewer's findings, when a reviewer ran, each marked as the reviewer's (RELAYED), with the advisor's own re-check wherever the evidence it cites is readable under §3;
    - the findings;
    - each fork with options and a recommendation;
-   - the human's merge commands (`docs/ROUNDS.md` §9), with absolute paths.
+   - the commands the advisor runs on the human's word (`docs/ROUNDS.md` §9; §1 here), shown first, with absolute paths.
 
    Wait for the human's "agree" or "go" before writing any prompt.
 6. **After the merge:** run `git -C /home/kitaeza/github/zurkhai-advisor pull --ff-only`, and confirm `main`'s tree equals the branch tip's.
+7. **The drift check**, after step 6: read `docs/ROADMAP.md`, `FORKS.md` and `docs/BACKLOG.md` on the merged `main`, and add to the adjudication a closing note that names every planned row whose TRIGGER has now fired, every gate whose state has changed, and every backlog entry the round promoted.
 
 **A reviewer session at the close.** The advisor may not read the code (§3), so without a reviewer nobody independent of the author reads it: a report's assertion text and test names reach the advisor unverified, and no record holds a gate run on the exact tree that merges. The reviewer is the advisor's instrument on the code, not a route around §3.
 - **When.** By default, at the close of every round whose diff touches `crates/` or `golden/` (step 2). A round that touches neither skips it. Also, for any round, when it reviewed its own earlier work, or before a heavy adjudication. At most twice per round. The default needs no separate ask: it is the human's standing ruling of 2026-11-11.
@@ -127,16 +140,21 @@ METHOD rule 9 gives the reasons and the triggers. In practice:
 
 - **Only at a clean boundary.** Every decision is already in a file: the tree (through a prompt or an addendum), the prompt files, or the advisor's memory (§9). Never mid-adjudication. Never between an adjudication and the prompt it produces.
 - **Two checkpoints.** After, as the default: at the end of a handoff, once the merge, the rulings and the next prompt are in files. Before, as the backstop: when a heavy round lands in an already-long session, say so before reading anything.
-- **The last line of every handoff is one of exactly two forms.** "Good moment to clear the advisor session.", followed by the starter block. Or "No need to clear the advisor session: <the trigger that did not fire>." The engine handoff line is never last.
-- **The mechanical check.** The words "clear" and "advisor session" appear together only in a message that also contains a fenced block beginning `You are zurkhai's advisor.` If the starter cannot be written yet, write neither.
+- **The starter is a file, written at every handoff.** At EVERY handoff, whether the advisor's session should be cleared or not, the advisor overwrites `/home/kitaeza/zurkhai-prompts/advisor-starter.txt` with the starter below, composed from files, and shows it with `cat`. The human's shell has an alias, `zadv-start`, that prints that file; a fresh advisor session starts with it.
+- **The last line of every handoff is one of exactly two forms.** "Good moment to clear the advisor session.", followed by the starter block (the text the file holds; the clear line and the starter are one message, METHOD rule 9). Or "No need to clear the advisor session: <the trigger that did not fire>." The engine handoff line is never last.
+- **The mechanical check.** The words "clear" and "advisor session" appear together only in a message that also contains the starter block (a fenced block beginning `You are zurkhai's advisor.`), or in exactly the second form of the last line, "No need to clear the advisor session: <the trigger that did not fire>." If the starter cannot be written yet, write neither.
 
 The starter, composed from files and never from the conversation:
 
 ```
 You are zurkhai's advisor. Read docs/ADVISOR.md first. `main` is at `<sha>` (spec NNN landed: <one-line outcome; what is OPEN in FORKS.md>). Spec MMM — <name> — is <running on | prompted at> `/home/kitaeza/zurkhai-prompts/spec-MMM-name.md`, branch `spec/MMM-name`, <model>, effort <effort>. <One line on its shape: a build, or a diagnostic that halts at Item N by design.> Wait for "spec MMM landed", or for its STOP AND ASK.
+
+Check first that this starter is not stale. In the engine repository `main` is at `<the full 40-digit commit id>`; the public origin's `main` should print `<the full commit id the public origin's main should hold>`; and the sha256 of each running or prompted prompt file is `<sha256>  /home/kitaeza/zurkhai-prompts/spec-MMM-name.md` (one line per file). If any of these differs, the starter is stale: say so, and rebuild the state from the files and your own notes before doing anything else.
 ```
 
-The starter is followed by one line: "Open it in `/home/kitaeza/github/zurkhai-advisor`, on Opus, effort xhigh." When rounds run in parallel, the starter names every running round and its prompt, and a dated note of each round's branch tip and status goes to the advisor's memory first.
+The starter ends with that stale-check paragraph. It holds main's full commit id, what the public origin's `main` should print, and the sha256 of every running or prompted prompt file; a fresh session checks all three first. A mismatch means the starter is stale, and the session says so and rebuilds the state from the files and the advisor's notes.
+
+The human opens a fresh session in `/home/kitaeza/github/zurkhai-advisor`, on Opus, effort xhigh, and runs `! zadv-start`. When rounds run in parallel, the starter names every running round and its prompt, and a dated note of each round's branch tip and status goes to the advisor's memory first.
 
 ## 9. The advisor's memory
 
@@ -153,3 +171,4 @@ Never a rule: rules go in the tree. Corrections are appended as dated lines, nev
 - r1 (2026-10-02): initial.
 - r2 (2026-10-02): the advisor runs at effort xhigh (§1, §8), on the human's instruction.
 - r3 (2026-11-11): the reviewer session at a round's close (§3, §6): by default on every round that changes `crates/` or `golden/`; on a model other than the author's; a brief and a report at fixed paths; verdicts, never quoted implementation. On the human's ruling of 2026-11-11 ("Ok agree with all recommends").
+- r4 (2026-11-12): §1, §2, §5, §6 and §8; on the human's rulings R3–R6 (spec 011).

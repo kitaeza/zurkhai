@@ -168,7 +168,7 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Kind:** COVERAGE
 - **Statement:** Rows 6, 7 and 8 of 001 §5.2 are explicitly deferred (001 §10), by the human's ruling on F15–F21. Spec 007's Item 3 table holds the ten lines: FOUND in Janson v1 T1, T2, T3, T5, T6, T9, T10 (Appendix E); NOT IN JANSON V1 T4, T7, T8. The reasons, each with the value measured: no check of any FOUND line exists beyond the paper itself (the T4 library computes none; Item 4 is the paper against itself, METHOD rule 35); the identification of "mewa" and "parkha" with Janson's "number" and "trigram" is INFERRED (the words occur in no library source); Janson v1 calls its trigram numbering "perhaps not traditional" (p. 74); the lunar-day lines depend on the version: T6 and T10 through the month's animal A (Table 24's two columns give a different trigram and a different number on 360 of 360 pairs, Item 10a), T2 through the month's element ((E.6) or (E.7)); a candidate Buryat source labels its months by Janson's Tsurphu rules (27 of 27 animals match Table 24's Tsurphu column, 0 of 27 its Phugpa column; Item 10b; not admitted, not golden data, not a Q1 finding). The round that reopens the rows starts from that table and puts F15–F18's questions again. At 001's next revision, rows 6–8 say "deferred" (with D-16).
 - **Pinned by:** not pinned
-- **TRIGGER:** the first of: (i) an admitted T1–T3 source prints one of these attributes, or names мэнгэ or парка; (ii) an L2 rule (M4 or later) needs one in its condition; (iii) the Q1 verdict spec is accepted (M3).
+- **TRIGGER:** the first of: (i) an admitted T1–T3 source prints one of these attributes, or names мэнгэ or парка; (ii) an L2 rule (M4 or later) needs one in its condition; (iii) the Q1 verdict spec is accepted (M3). [CORRECTED 2026-11-13: TRIGGER (iii) fired when spec 014 was accepted and merged (2026-11-13, 99c56e3); spec 014 named no action for it (the advisor's correction, spec 015). On the human's ruling I4 of 2026-11-13 the rows are reopened by the day-attributes round of docs/ROADMAP.md, for the rows the interpretation-sources inventory (spec 015) shows a Buryat source needs. The TRIGGER is now: the day-attributes round's prompt is written.]
 - **Status:** OPEN
 
 ### D-19 — Tsurphu's karana-Sun variant (Janson v1 Remark 22, p. 40) is not implemented
@@ -345,4 +345,44 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Statement:** Spec 014 measured one extra month (n = 1): the engine flags is_leap_month on the first of two lunations with month 12 (Janson v1, p. 11), and the Aginsky 2025 edition prints «Дополнительный зимний месяц» on the second (golden/buryat/aginsky-datsan-2025.csv, 2025-01-30 to 2025-02-28). The verdict spec records the relation and maps nothing beyond it.
 - **Pinned by:** not pinned
 - **TRIGGER:** the first client that shows a month's name or its leap flag.
+- **Status:** OPEN
+
+### D-41 — The 6 open days of spec 014's verdict are unexplained
+- **Filed:** 2026-11-13, spec 015 Item 0 (the close review of spec 014, its NOT ASKED 2, RELAYED; the human's C4)
+- **Kind:** CORRECTNESS
+- **Statement:** On 2025-12-22 to 2025-12-27 the Aginsky 2025 edition prints Genden's tshes plus one (golden/buryat/aginsky-datsan-2025.csv). Spec 014's verdict records these 6 days as UNEXPLAINED and OPEN and keeps them as its weakness; no variant is computed or adopted (CLAUDE.md hard rule 7).
+- **Pinned by:** q1_pin_a_measurement_not_a_correctness_claim_tshes_matches_and_mismatching_dates_of_spec_014
+- **TRIGGER:** the first of: a зурхайч, or an admitted source, names a published rule that accounts for them (spec 014, Reopening 3); the approach to Гунзэчойнэй under FORKS.md F4 (b) records an answer about them; an admitted calendar prints that lunation again.
+- **Status:** OPEN
+
+### D-42 — Two figures spec 014's verdict cites are asserted by no test, and a test comment calls F38 OPEN
+- **Filed:** 2026-11-13, spec 015 Item 0 (the close review of spec 014, its FINDINGs 4.1 and 4.2 and NOT ASKED 1, RELAYED; the human's C3)
+- **Kind:** COVERAGE
+- **Statement:** (1) The Non-properties' "the only day of spec 009's lists inside the files, 2025-11-19" is printed by q1_report_d23_the_days_of_spec_009_inside_the_golden_files_and_whether_it_fires and asserted by no test. (2) "The extra month": that the second lunation, 2025-01-30 to 2025-02-28, carries month 12 in Genden and Tsurphu is printed only. (3) The doc comment of the spec 014 pin in crates/tshes/tests/q1_differential.rs still describes FORKS.md F38 as OPEN. The reviewer re-measured (1) and (2) as true.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that edits crates/tshes/tests/.
+- **Status:** OPEN
+
+### D-43 — The gate's deny leg may reach the network unseen
+- **Filed:** 2026-11-13, spec 015 Item 0 (the close review of spec 014, its NOT ASKED 7, RELAYED; the human's C7)
+- **Kind:** TOOLING
+- **Statement:** tools/gate.sh runs `cargo deny check` with no offline switch of its own; a round whose GRANTS say "Network: none" cannot see from the gate's output whether cargo-deny fetched its advisory database.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round of the Process arc, or the next round that edits tools/gate.sh.
+- **Status:** OPEN
+
+### D-44 — Two statements in the tree are narrower than what spec 015 read
+- **Filed:** 2026-11-13, spec 015 (by-catch)
+- **Kind:** DOCS
+- **Statement:** (1) golden/buryat/README.md's rules list "the day-mark letters and icons of a calendar (Д, Б, Т, МХ, the scissors and the aeroplane)" as not transcribed; the Aginsky editions print a horse-and-rider icon and the letter М where the Ivolginsky sheet prints an aeroplane and МХ, and the Gunzechoinei pages print both an aeroplane and the letters Д, Б, Т, МХ (spec 015, docs/sources.md "Reference facts"). (2) docs/sources.md's `gunzechoinei-datsan/` row says that of the images read only the 2025 cover carries the Sangha line; spec 015 read two more covers (`dazanspb2024/perekidnoj_kalendar_2024.jpg`, `dazanspb2026/al_bom_kalendar_2026_2.jpg`) and both print it above «Дацан Гунзэчойнэй». Neither is edited by spec 015: golden/** is gated, and the row changes only by Item 0 (d)'s scope.
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that edits golden/buryat/README.md, or the next round that edits the `gunzechoinei-datsan/` row (D-34).
+- **Status:** OPEN
+
+### D-45 — Spec 015's per-day readings are kept only as an appendix, and were blind-checked for one month per publication
+- **Filed:** 2026-11-13, spec 015 (accepted risk)
+- **Kind:** COVERAGE
+- **Statement:** The per-day transcriptions of spec 015 (the Ivolginsky sheet read by eye from 400 dpi crops; the two Aginsky editions extracted by a script over the PDFs' word boxes and the table's cells, and checked by eye on three months) were made in the round's scratch, which is not kept. Their sha256 and the days that carry a sign are in spec 015's appendix. The blind second reading covered January 2021 and March 2025 (62 days, 0 disagreements); the other 13 Ivolginsky month blocks and 27 Aginsky month blocks were read once (three of the Aginsky ones also compared by eye with the script). No per-day mark is golden data (spec 015 STOP RULE (5)).
+- **Pinned by:** not pinned
+- **TRIGGER:** the day-attributes round's prompt is written, or any round that cites spec 015's per-day counts in a rule or an attribute.
 - **Status:** OPEN

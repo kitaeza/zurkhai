@@ -18,3 +18,4 @@ A convenience only. The tree is authoritative for the next free number (`ls docs
 | 012 | `012-source-checks.md` | Source checks: who publishes each calendar in the library, and on what terms | draft |
 | 013 | `013-buryat-sources.md` | Buryat sources: the admission of three datsan calendars, and their tshes as golden rows | draft |
 | 014 | `014-q1-verdict.md` | The Q1 verdict: Genden, within the scope of the three golden/buryat/ files of two datsans | accepted |
+| 015 | `015-interpretation-sources.md` | Interpretation sources: what the held Buryat calendars print about a day, keyed on what | draft |

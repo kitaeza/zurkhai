@@ -303,3 +303,23 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Status:** RULED
 - **Ruled:** 2026-11-13, (1), in the shape of spec 014 ADDENDUM 1's R5: Genden, scoped to the three golden/buryat/ files of two datsans, under 001 §6.5's second rule; the 2026 edition's 8 days recorded as a disagreement between editions, the 2025 edition's 6 as open; four reopening conditions (spec 014's verdict, its Reopening section). The human: "Agree with all recommendations, go."
 - **Built in:** spec 014 (the verdict spec, Item 13)
+
+### F39 — What a client shows as the advice for a day
+- **Raised:** 2026-11-13, the advisor's question I2 to the human (recorded by spec 015 Item 0)
+- **Question:** When a client shows a day, how are the interpretations that hold on it presented?
+- **Options:** (a) every sourced rule whose condition holds that day, each with its source and tradition, contradicting rules side by side; a combined verdict only where a source itself states how its rules combine (001 §7, §10 M5); (b) a combined verdict per category; (c) prose generated from the rules (against 001 §2, "No authored interpretations")
+- **Status:** RULED
+- **Ruled:** 2026-11-13, (a). The human: "Agree with all recommendations" (spec 015, I2)
+
+### F40 — Whether a Tibetan interpretive rule set may serve as an oracle against Buryat datsans' printed advice
+- **Raised:** 2026-11-13, the advisor's question A to the human (recorded by spec 015 Item 0); the human ruled that it is decided after spec 015 lands, on its numbers
+- **Question:** May the rules of a Tibetan (non-Buryat) interpretive source, such as M. Erlewine's "Tibetan Astrology" (Tsurphu), be applied to dates and compared with what Buryat datsan calendars print, as a measurement kept outside rules/?
+- **Options:** (a) yes, as an interpretation oracle outside rules/, which needs CLAUDE.md hard rule 8 and 001 §2 amended first; a match would not show that a datsan uses that source; (b) no
+- **Status:** OPEN
+
+### F41 — A second interpretive tradition beside the Buryat one
+- **Raised:** 2026-11-13, the advisor's question B to the human (recorded by spec 015 Item 0)
+- **Question:** Should clients offer, beside the Buryat rules, a separately labelled Tibetan tradition (for example recommendations labelled as Erlewine's "Tibetan Astrology"), computed on its own system's dates?
+- **Options:** (a) not now: 001 §1–2 stand; revisit no earlier than M4/M5; (b) yes, which needs a revision of 001 §1–2, CLAUDE.md hard rule 8 changed, and the publisher's written permission; (c) revisit at M5
+- **Status:** RULED
+- **Ruled:** 2026-11-13, (a). The human: "Agree with all recommendations" (spec 015, B)

@@ -4,7 +4,9 @@
 
 use tshes::{GregorianDate, Jdn, System, ZDate, to_zdate};
 
+pub mod buryat;
 pub mod fixtures;
+pub mod q1;
 
 /// The JD of 1900-01-01, from the Gregorian conversion (not typed twice).
 pub fn first_jdn() -> i64 {

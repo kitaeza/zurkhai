@@ -1,6 +1,6 @@
 # ROADMAP — the order of the rounds, and the state of the two gates
 
-Status: r5 (2026-11-12). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
+Status: r7 (2026-11-13). Not gated; it changes by a revision entry below, in the commit that changes it. Where it disagrees with an accepted spec, the spec wins and the disagreement is a flag.
 
 This file is the project's plan in one place: which rounds have landed, which are planned, what each opens, and what must hold before the next one may start. `docs/specs/001-init-spec.md` §10 stays authoritative for what each milestone delivers and when it is done; this file tracks **order and state only**.
 
@@ -39,7 +39,7 @@ The weakest boundary is Engine against Validation (the advisor's caveat). A roun
 | Process | none | roadmap-backlog — LANDED | The roadmap, the backlog and arcs; ADVISOR r4 and ROUNDS r4; the first client recorded as a website | an arc on every later prompt; the Sources round | publication landed |
 | Sources | M0 | source-checks — LANDED | for every calendar held in the library, who publishes it, whether it is a Sangha datsan, the site's terms, and what the governing law says about reusing calendar facts | buryat-sources | roadmap-backlog landed |
 | Sources | M0 | buryat-sources — LANDED | the admission of the Buryat datsan calendars in the paper library, and their tshes as golden rows (001 §10 M0) | the Q1 verdict | source-checks landed, and the human has ruled on its findings |
-| Verdict | M3 | q1-verdict — PLANNED | the Q1 differential report, and the verdict spec or a recorded stop-and-consult (001 §10 M3) | D-1 is lifted only by the verdict spec; the TRIGGERs of D-19, D-23 and D-24 name this round | M0's done-when is met (001 §10), and genden-tsurphu landed |
+| Verdict | M3 | q1-verdict — LANDED | the Q1 differential report, and the verdict spec or a recorded stop-and-consult (001 §10 M3) | D-1 is lifted only by the verdict spec; the TRIGGERs of D-19, D-23 and D-24 name this round | M0's done-when is met (001 §10), and genden-tsurphu landed |
 | Rules | M4 | l2-schema — PLANNED | the L2 schema, its validator and the first sourced table (001 §10 M4) | sourced rules for the first client | the human orders it; 001 §10 sets it no dependency, and it is not yet ordered |
 | Clients | M5 | website — PLANNED | the first client, a website at zurkhai.org (F27) (001 §10 M5) | Android; the second gate of 003 §4 P4 | the Q1 verdict spec exists (D-1), and l2-schema landed |
 | Clients | M6 | android — PLANNED | Android, on the same engine through bindings (001 §10 M6) | — | website landed, and F7 is ruled |
@@ -49,7 +49,7 @@ The weakest boundary is Engine against Validation (the advisor's caveat). A roun
 
 | gate | what it checks | state | TRIGGER |
 |---|---|---|---|
-| Gate 1, the Q1 verdict (003 §4 P4; M3) | which computation system the Buryat calendars follow | NOT REACHED: the Q1 verdict spec does not exist; M0 has three admitted T1 files (spec 013; whether M0 is met is the human's to say); D-1 holds | the Q1 verdict spec is accepted |
+| Gate 1, the Q1 verdict (003 §4 P4; M3) | which computation system the Buryat calendars follow | REACHED: spec 014's verdict (Genden, scoped; FORKS.md F38 RULED (1)), in force on main from its merge; D-1 PAID | the Q1 verdict spec is accepted |
 | Gate 2, the first public release of a client (003 §4 P4) | correctness, provenance display, tradition labelling, and a reviewer's sign-off | NOT REACHED: no client exists | the website's first release candidate |
 
 ## Revisions
@@ -59,3 +59,5 @@ The weakest boundary is Engine against Validation (the advisor's caveat). A roun
 - r3 (2026-11-12): Table 1: a new row, source-checks (PLANNED, TRIGGER "roadmap-backlog landed"), inserted before buryat-sources; buryat-sources' TRIGGER changed from "roadmap-backlog landed, and the human has answered the questions on admission and tier that the round's prompt needs" to "source-checks landed, and the human has ruled on its findings" (spec 012, on the human's ruling R1 of 2026-11-12).
 - r4 (2026-11-12): Table 1, row source-checks: PLANNED → LANDED, by the round's own final commit (spec 012). Its TRIGGER cell is left as the prompt dictated it.
 - r5 (2026-11-12): Table 1, row buryat-sources: PLANNED → LANDED, by the round's own final commit (spec 013); its TRIGGER cell is left as it stood. Table 2, Gate 1's state cell: "M0 has no admitted source yet" is replaced by the three admitted T1 files, so that the cell does not contradict the row above it (hard rule 19); the gate stays NOT REACHED.
+- r6 (2026-11-13): Table 2, Gate 1's state cell: "M0 has three admitted T1 files (spec 013; whether M0 is met is the human's to say)" is replaced by "M0 is met under FORKS.md F37 (c)", on the human's ruling of 2026-11-13 (spec 014 Item 0; F37 is RULED (c): a refusal under DEBT.md D-35 that withdraws the Ivolginsky rows reopens M0). The q1-verdict row of Table 1 is not changed (spec 014 is halted at its Item 6).
+- r7 (2026-11-13): Table 1, row q1-verdict: PLANNED → LANDED, by the round's own final commit (spec 014, session 2); its TRIGGER cell is left as it stood. Table 2, Gate 1's state cell: "NOT REACHED: the Q1 verdict spec does not exist; M0 is met under FORKS.md F37 (c); D-1 holds" is replaced by "REACHED: spec 014's verdict (Genden, scoped; FORKS.md F38 RULED (1)), in force on main from its merge; D-1 PAID", on the human's ruling of 2026-11-13 (F38, R5).

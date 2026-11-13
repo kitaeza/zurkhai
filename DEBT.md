@@ -27,10 +27,10 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 ### D-1 — No client defaults `System` before the Q1 verdict
 - **Filed:** 2026-10-02, 001 §4, 003 §3.
 - **Kind:** NEGATIVE
-- **Statement:** No client, wrapper or rule may default the computation system (Phugpa, Genden, Tsurphu) until the Q1 verdict spec exists. Until then the engine takes `System` as an explicit parameter everywhere. A default chosen earlier would assert an answer to Q1 that only the data can give.
+- **Statement:** No client, wrapper or rule may default the computation system (Phugpa, Genden, Tsurphu) until the Q1 verdict spec exists. Until then the engine takes `System` as an explicit parameter everywhere. A default chosen earlier would assert an answer to Q1 that only the data can give. A client that defaults System shows the system and the scope of spec 014's verdict (001 §10 M5).
 - **Pinned by:** not pinned
 - **TRIGGER:** the Q1 verdict spec is accepted (M3).
-- **Status:** OPEN
+- **Status:** PAID 2026-11-13, spec 014 (the Q1 verdict spec, FORKS.md F38 RULED (1); in force on main from its merge)
 
 ### D-2 — The glossary does not exist
 - **Filed:** 2026-10-02, 002 §8.
@@ -176,7 +176,7 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Kind:** COVERAGE
 - **Statement:** The engine's `System::Tsurphu` is Janson v1's A.2 (pp. 38–40). Remark 22 says some Tsurphu almanacs give the true solar longitude from the karana calculation (Appendix A.5), and in some the true date is calculated with the karana solar equation, so a different Tsurphu. Not implemented, and not a fourth `System`. RELAYED (the advisor, measured 2026-11-11): Henning's published Tsurphu calendars (kalacakra.org) are made by software that takes the Sun's longitude from the karana calculation; his 2012 file differs from Janson v1's Table 8 Tsurphu column in months 4, 5 and 11, with every month length equal. Ruling out A.2 alone does not rule out the variant.
 - **Pinned by:** not pinned
-- **TRIGGER:** the first of: (i) a Q1 verdict spec would rule Tsurphu out; (ii) the Q1 differential report (M3) finds Tsurphu the best-matching system for any source; (iii) an admitted source names a Karma Kagyu almanac as its basis.
+- **TRIGGER:** the first of: (i) a Q1 verdict spec would rule Tsurphu out; (ii) the Q1 differential report (M3) finds Tsurphu the best-matching system for any source; (iii) an admitted source names a Karma Kagyu almanac as its basis. [CORRECTED 2026-11-13: (i) fired with spec 014, whose verdict (`FORKS.md` F38, RULED (1)) rules out Tsurphu as Janson v1's A.2 computes it and did not measure the karana-Sun variant of Remark 22 (spec 014 ADDENDUM 1, R6). The TRIGGER is now: the first of: (ii) the Q1 differential report (M3) finds Tsurphu the best-matching system for any source; (iii) an admitted source names a Karma Kagyu almanac as its basis; (iv) spec 014's verdict reopens.]
 - **Status:** OPEN
 
 ### D-20 — Round 008's tests are weaker than its report says
@@ -208,7 +208,7 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Kind:** COVERAGE
 - **Statement:** Janson v1 prints two values of the Moon's anomaly increment per lunar day: a2 = 1/28, eq. (7.13), p. 23, and a2 = 3781/105840, eq. (7.24), p. 25, which Henning uses (Remark 14, pp. 25–26). The engine computes (7.13) for Phugpa, Tsurphu and Genden (`FORKS.md` F25, RULED (a)); (7.24) is not implemented. Under (7.24) the three systems give other Tibetan dates on 17 (Phugpa), 13 (Tsurphu) and 23 (Genden) days of 1900-01-01..2100-12-31, each listed in spec 009's report, §1.2 (MEASURED by spec 009, with TCG 1.06 and with a script from the paper under each value). Within 2021–2026 the lists hold three days: Tsurphu 2022-06-28, Genden 2024-09-19, Phugpa 2025-11-19.
 - **Pinned by:** `remark_14_the_two_versions_of_a2_differ_on_the_days_janson_lists` and `remark_14_footnote_27_the_two_versions_differ_on_9_and_8_days` (spec 005's Example I; Phugpa only). MEASURED 2026-11-11 (spec 009 session 2): `git grep -n -E` for the two names, at HEAD under `crates/tshes`, found both, at `crates/tshes/src/phugpa.rs:991` and `:1012`, each on `Epoch::E806`.
-- **TRIGGER:** a round that compares any source with the engine on a day of spec 009's lists (the Q1 differential, M3, first). It reports the source's value on that day against the engine's and against the (7.24) value in spec 009's lists. If an admitted source matches the (7.24) value of its best-matching system on such a day, F25 is put to the human again, with a named variant of each system among its options.
+- **TRIGGER:** a round that compares any source with the engine on a day of spec 009's lists (the Q1 differential, M3, first). It reports the source's value on that day against the engine's and against the (7.24) value in spec 009's lists. If an admitted source matches the (7.24) value of its best-matching system on such a day, F25 is put to the human again, with a named variant of each system among its options. [CORRECTED 2026-11-13: the last sentence reads "If an admitted source matches the (7.24) value of its best-matching system on a day of that system's own list, F25 is put to the human again, with a named variant of each system among its options." (spec 014 ADDENDUM 1, R7: not fired). Spec 014 §2(e): the one list day inside the golden files is 2025-11-19, a day of Phugpa's list; the Aginsky 2025 edition prints 29 there, the engine's Phugpa 30 and Phugpa's (7.24) value 29, and that file's best-matching system is Genden, whose two values of a2 give the same label on that day (it is not on Genden's list).]
 - **Status:** OPEN
 
 ### D-24 — Tsurphu and Genden have no full-range oracle in the tree
@@ -216,7 +216,7 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Kind:** COVERAGE
 - **Statement:** In the gate, the engine's Tsurphu and Genden are checked only against Janson v1's printed tables (P5: Tables 6–9) and against their own consistency (P1–P4, P7); Phugpa also has the T4 fixture over 1900–2100 (P6). Spec 009 compared all three systems with Henning's TCG 1.06, built from its published source (the library's `henning-tcg/tcg1309.zip`), on every day of 1900-01-01..2100-12-31, on the engine of 07b5bbf: equal on every day except the 53 days of D-23. TCG's output is not in the tree (`FORKS.md` F24, RULED (a)). The build, the program's input, the readers and the comparison are in spec 009's report, §21.
 - **Pinned by:** not pinned
-- **TRIGGER:** the first round after spec 009 that edits `crates/tshes/src/`, or the Q1 verdict spec, whichever comes first. That round runs spec 009's differential again for the three systems over 1900–2100, from §21's record, and reports the counts per system. A disagreeing day outside D-23's lists is a finding.
+- **TRIGGER:** the first round after spec 009 that edits `crates/tshes/src/`, or the Q1 verdict spec, whichever comes first. That round runs spec 009's differential again for the three systems over 1900–2100, from §21's record, and reports the counts per system. A disagreeing day outside D-23's lists is a finding. [CORRECTED 2026-11-13: the Q1 verdict spec (spec 014) fired this, and spec 014 session 2 (Item 11) re-ran the differential from §21's record on the engine of f8b2af8 (the tree of `crates/tshes/src` is 6423704…, the same as at d174965): TCG 1.06 built again from `tcg1309.zip` at -O0 and -O2 (the 606 output files byte-identical between the builds; the build check 8,940 of 8,940 lines equal), the engine's three dumps byte-identical in debug and release and to spec 009's (sha256 equal), the Phugpa dump equal to the T4 fixture. The engine and TCG differ on Phugpa 17, Tsurphu 13 and Genden 23 days of 1900-01-01..2100-12-31, 53 in all, equal to D-23's lists date by date and cell by cell; no disagreeing day lies outside them. The TRIGGER is now: the first round after spec 014 that edits crates/tshes/src/.]
 - **Status:** OPEN
 
 ### D-25 — actions/checkout v4 runs on a deprecated Node.js 20
@@ -288,7 +288,7 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Kind:** PROVENANCE
 - **Statement:** Sangha membership rests on the publishers' own statements (R4, `FORKS.md` F32) until these are in the library: EGRUL extracts, searched by name, for the Ivolginsky datsan «Хамбын Хурээ», the Aginsky datsan «Дэчен Лхундублинг», the Gunzechoinei datsan, the Khoymorsky datsan and the Central Khurul of Elista; the Ministry of Justice's register of religious organisations; the Sangha's own site, sangharussia.ru (named in the infobox of `sangha-secondary/ruwiki-BTSR.html`; not tried); the official text of the Civil Code, part 4; the Swiss commercial register's (zefix) extract for Rabten Choeling; and the Aginsky site's «Лунный календарь» page (R6's denominator).
 - **Pinned by:** not pinned
-- **TRIGGER:** the first of: the human saves any of them into the library; the q1-verdict prompt is written.
+- **TRIGGER:** the first of: the human saves any of them into the library; the q1-verdict prompt is written. [CORRECTED 2026-11-13: the second condition fired with spec 014's prompt (2026-11-13) and was not acted on there (the advisor's correction K1, spec 014 ADDENDUM 1; R8). The TRIGGER is now: the human saves any of them into the library. The scope of spec 014's verdict cites this entry: Sangha membership rests on the publishers' own statements.]
 - **Status:** OPEN
 
 ### D-34 — No golden rows from the Gunzechoinei and Khoymorsky calendars
@@ -302,7 +302,7 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 ### D-35 — The Ivolginsky rows stand on the human's acceptance of R5
 - **Filed:** 2026-11-12, spec 013 Item 0 (R5, `FORKS.md` F33)
 - **Kind:** PROVENANCE
-- **Statement:** The site's footer allows the use of its material for non-commercial activity and requires the written permission of the datsan or the named author in all other cases (`ivolginsky-datsan/saved-2026-11-12/ivolg-home.html`, raw lines 450 to 451; lines 139 to 141 of spec 013's text conversion). golden/ is CC BY 4.0. The human ruled: admitted now, facts only, `rights` quoting the footer verbatim, and the human writes to the datsan for written permission. Rows already pushed stay in the public history even if withdrawn.
+- **Statement:** The site's footer allows the use of its material for non-commercial activity and requires the written permission of the datsan or the named author in all other cases (`ivolginsky-datsan/saved-2026-11-12/ivolg-home.html`, raw lines 450 to 451; lines 139 to 141 of spec 013's text conversion). golden/ is CC BY 4.0. The human ruled: admitted now, facts only, `rights` quoting the footer verbatim, and the human writes to the datsan for written permission. Rows already pushed stay in the public history even if withdrawn. A refusal that withdraws these rows also reopens M0 (FORKS.md F37, RULED (c)): only the Aginsky datsan would remain. A refusal that withdraws these rows also reopens spec 014's Q1 verdict (its Reopening (i)).
 - **Pinned by:** not pinned
 - **TRIGGER:** the datsan's answer, recorded by the human; on a refusal, the rows of `golden/buryat/ivolginsky-datsan-2021.csv` are withdrawn with an in-place `[CORRECTED yyyy-mm-dd: …]` record.
 - **Status:** OPEN
@@ -321,7 +321,7 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Statement:** MEASURED 2026-11-12: `git grep -n 'golden/buryat'` over `crates`, `tools` and `.github` prints nothing (exit 1), and `git grep -n -E 'read_dir|WalkDir|glob\('` over `crates` and `tools` prints nothing (exit 1); the tests that read golden/ name their files under `golden/reference/` (`crates/tshes/tests/common/fixtures.rs`). The format, the step check and the meta presence of golden/buryat/ were checked by spec 013's scripts, outside the tree, and nothing re-runs them. The scripts and the raw readings (both passes, route A and route B) were scratch and are not kept; the report records the scripts verbatim.
 - **Pinned by:** not pinned
 - **TRIGGER:** the q1-verdict round, or the next round that writes golden/buryat/, whichever first.
-- **Status:** OPEN
+- **Status:** PAID 2026-11-13, spec 014 Item 2 (`crates/tshes/tests/buryat_golden.rs`: `buryat_the_csv_files_are_the_three_the_tests_name`, `buryat_every_csv_has_its_meta_file_and_every_meta_file_its_csv`, `buryat_every_meta_file_has_the_readme_keys_in_order_and_none_empty`, `buryat_every_csv_loads_with_the_formats_of_its_readme`, `buryat_the_tshes_steps_are_plus_1_plus_2_or_a_doubled_day_and_the_flags_agree`, `buryat_the_months_follow_the_lunation_rule_of_the_readme`, and the refusal tests beside them; re-measured first with a grep for `buryat` alone, which finds one doc comment and no reader)
 
 ### D-38 — FORKS.md F28 to F31 still say "not yet built"
 - **Filed:** 2026-11-12, spec 013 (by-catch; hard rule 1 forbids fixing it in this round)
@@ -329,4 +329,20 @@ Deliberate debt, negative debt (a constraint that must NOT be relaxed until a co
 - **Statement:** The `Built in:` lines of F28, F29, F30 and F31 read "not yet built; the Sources round". Spec 013 is that round: F28 (the step check of golden/buryat/), F29 (the Ivolginsky file, T1), F30 (the two Aginsky files, T1) and F31 (`is_leap_month` per the source's label) are built in it. The rows are not edited here.
 - **Pinned by:** not pinned
 - **TRIGGER:** the next round that edits `FORKS.md`, or the q1-verdict prompt, whichever first.
+- **Status:** PAID 2026-11-13, spec 014 Item 0
+
+### D-39 — No test reads a golden .meta.yaml under golden/reference/
+- **Filed:** 2026-11-13, spec 014 Item 0 (R3 (e) of its prompt, RELAYED from the review of spec 013's tip and re-measured by spec 014 Item 1(b))
+- **Kind:** COVERAGE
+- **Statement:** R3 (e) of spec 014's prompt (RELAYED from the review of spec 013's tip, and re-measured by spec 014): no code in the tree reads any .meta.yaml, so a missing or malformed meta file under golden/reference/ fails nothing. Spec 014 checks the golden/buryat/ metas only (D-37).
+- **Pinned by:** not pinned
+- **TRIGGER:** the next round that writes golden/reference/.
+- **Status:** OPEN
+
+### D-40 — How a client names the extra month of a Buryat year
+- **Filed:** 2026-11-13, spec 014 session 2 Item 9 (the advisor's call C1, ADDENDUM 1)
+- **Kind:** DOCS
+- **Statement:** Spec 014 measured one extra month (n = 1): the engine flags is_leap_month on the first of two lunations with month 12 (Janson v1, p. 11), and the Aginsky 2025 edition prints «Дополнительный зимний месяц» on the second (golden/buryat/aginsky-datsan-2025.csv, 2025-01-30 to 2025-02-28). The verdict spec records the relation and maps nothing beyond it.
+- **Pinned by:** not pinned
+- **TRIGGER:** the first client that shows a month's name or its leap flag.
 - **Status:** OPEN

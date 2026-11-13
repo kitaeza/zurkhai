@@ -17,3 +17,4 @@ A convenience only. The tree is authoritative for the next free number (`ls docs
 | 011 | `011-roadmap-backlog.md` | The roadmap, the backlog and arcs; ADVISOR r4 and ROUNDS r4 | draft |
 | 012 | `012-source-checks.md` | Source checks: who publishes each calendar in the library, and on what terms | draft |
 | 013 | `013-buryat-sources.md` | Buryat sources: the admission of three datsan calendars, and their tshes as golden rows | draft |
+| 014 | `014-q1-verdict.md` | The Q1 verdict: Genden, within the scope of the three golden/buryat/ files of two datsans | accepted |

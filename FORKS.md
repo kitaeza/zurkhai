@@ -48,7 +48,8 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Raised:** 001 §11.
 - **Question:** Approach the datsan before or after the Q1 verdict (M3)?
 - **Options:** (a) Before: access to T1 data. (b) After: a working engine to show.
-- **Status:** OPEN
+- **Status:** RULED
+- **Ruled:** 2026-11-13, (b), after M3: the approach carries spec 014's verdict, its 6 open days and the two Aginsky editions' disagreement as its questions; the contact is the human's. The human: "Agree with all recommendations, go." (spec 014 ADDENDUM 1, R9)
 
 ### F5 — Buryat-language strings
 - **Raised:** 001 §11.
@@ -221,7 +222,7 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Options:** (a) yes, for a Sangha datsan's own Buddhist lunar calendar whose numbers behave like tshes, shown by a step check, with a DEBT.md entry to clarify §6.3; (b) no, only a source that names зурхай or the Tibetan calendar; (c) case by case, in each source's meta file.
 - **Status:** RULED
 - **Ruled:** 2026-11-12, (a). The human: "1 agree". The DEBT.md entry is D-31.
-- **Built in:** not yet built; the Sources round (docs/ROADMAP.md, buryat-sources)
+- **Built in:** spec 013 (the step check of golden/buryat/, run by its scripts; under the gate from spec 014, D-37)
 
 ### F29 — The tier of the Ivolginsky datsan's 2021 calendar
 - **Raised:** 2026-11-12, by the advisor, before the Sources round; recorded by spec 012 Item 0
@@ -229,7 +230,7 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Options:** (a) T1, an official calendar of a Sangha datsan, with edition and compiler; its meta file says it is the digital original, not a scan; (b) T2, the datsan's own web publication.
 - **Status:** RULED
 - **Ruled:** 2026-11-12, (a), T1. Admission still waits on the terms check of 001 §8 (spec 012). The human: "2 agree".
-- **Built in:** not yet built; the Sources round
+- **Built in:** spec 013 (golden/buryat/ivolginsky-datsan-2021.csv, T1)
 
 ### F30 — The tier, and the editions, of the Aginsky datsan's calendars
 - **Raised:** 2026-11-12, by the advisor, before the Sources round; recorded by spec 012 Item 0
@@ -237,7 +238,7 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Options:** (a) both T1, one golden file per edition, the disagreement recorded in both and neither corrected; (b) the 2025 edition only; (c) both, with the disagreeing days left out.
 - **Status:** RULED
 - **Ruled:** 2026-11-12, (a). Admission still waits on the terms check of 001 §8 (spec 012). The human: "3 agree".
-- **Built in:** not yet built; the Sources round
+- **Built in:** spec 013 (golden/buryat/aginsky-datsan-2025.csv and aginsky-datsan-2026.csv, T1, the disagreements noted in both)
 
 ### F31 — What the golden is_leap_month column records
 - **Raised:** 2026-11-12, by the advisor, before the Sources round; recorded by spec 012 Item 0
@@ -245,7 +246,7 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Options:** (a) what the source prints, its convention stated in the meta file, the cell empty with a note where nothing is printed, and the Q1 round mapping conventions; (b) normalised to Janson v1's convention at transcription; (c) empty for every Buryat source.
 - **Status:** RULED
 - **Ruled:** 2026-11-12, (a). The human: "4 agree".
-- **Built in:** not yet built; the Sources round
+- **Built in:** spec 013 (is_leap_month per the source's label; golden/buryat/README.md)
 
 ### F32 — What shows that a datsan belongs to the Buddhist Traditional Sangha of Russia
 - **Raised:** 2026-11-12, by the advisor, after spec 012; recorded by spec 013 Item 0
@@ -286,3 +287,19 @@ SUPERSEDED and WITHDRAWN carry their reason. Rows are never deleted.
 - **Status:** RULED
 - **Ruled:** 2026-11-12, (a). The human: "Agree".
 - **Built in:** spec 013
+
+### F37 — Whether M0's done-when is met by the three golden/buryat/ files
+- **Raised:** 2026-11-12, by the advisor at spec 013's landing; recorded by spec 014 Item 0
+- **Question:** 001 §10's M0 asks for "≥ 12 months of Buryat tshes data from ≥ 2 independent T1–T3 sources". The tree holds the Ivolginsky datsan's 2021 calendar and the Aginsky datsan's 2025 and 2026 editions, all T1 (spec 013). Is M0 met?
+- **Options:** (a) met, unconditionally; (b) not met until the Ivolginsky datsan answers the request for written permission (DEBT.md D-35); (c) met, on the condition that a refusal under D-35 which withdraws the Ivolginsky rows reopens M0, because only one datsan would remain.
+- **Status:** RULED
+- **Ruled:** 2026-11-13, (c). The human: "Agree with all recommendations, go merge".
+- **Built in:** spec 014 (DEBT.md D-35; docs/ROADMAP.md, Gate 1's state cell)
+
+### F38 — The outcome of the Q1 differential: a verdict, or stop-and-consult (spec 014 Fork 1)
+- **Raised:** 2026-11-13, spec 014 Fork 1 (Item 6, the halt)
+- **Question:** Spec 014 measured the three golden/buryat/ files against the engine's Phugpa, Tsurphu and Genden (1,213 rows; Genden 1,199 matches and 14 mismatches, Tsurphu 29, Phugpa 68; Genden matches the Ivolginsky file on 398 of 398 rows). Which outcome of 001 §10 M3 does the verdict spec record: a verdict, or the stop-and-consult outcome of 001 §6.5?
+- **Options:** (1) a verdict naming one system, with its scope (which datsans and dates the evidence covers) and how its 14 listed mismatches are recorded; (2) the stop-and-consult outcome of 001 §6.5 (the data to a зурхайч; F4 is OPEN); (3) more data before any verdict (DEBT.md D-33, D-34); (4) something the numbers suggest, as spec 014's report lists it. The costs are in spec 014's report, "STOP AND ASK — spec 014 Fork 1".
+- **Status:** RULED
+- **Ruled:** 2026-11-13, (1), in the shape of spec 014 ADDENDUM 1's R5: Genden, scoped to the three golden/buryat/ files of two datsans, under 001 §6.5's second rule; the 2026 edition's 8 days recorded as a disagreement between editions, the 2025 edition's 6 as open; four reopening conditions (spec 014's verdict, its Reopening section). The human: "Agree with all recommendations, go."
+- **Built in:** spec 014 (the verdict spec, Item 13)
